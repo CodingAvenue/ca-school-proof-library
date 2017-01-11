@@ -1,0 +1,21 @@
+{
+    "name": "codingavenue/php-proof",
+    "description": "Reusable functions",
+    "authors": [
+        {
+            "name": "Sandae Macalalag",
+            "email": "sandaemc@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "CodingAvenue\\Proof\\": "src/"
+        },
+        "files": [
+            "src/functions.php"
+        ]
+    },
+    "require": {
+        "nikic/php-parser": "^2.1"
+    }
+}
