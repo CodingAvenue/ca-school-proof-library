@@ -30,3 +30,20 @@ function findVariable(array $tokens, string $name): array
 
     return $tokens;
 }
+
+function psr2Check(string $file): array
+{
+    if (!file_exists($file)) {
+        throw new \Exception("File $file not found");
+    }
+
+    $command = "phpcs -q --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 --report=json --standard=PSR2 $file";
+
+    exec($command, $output, $exitCode);
+
+    if ($exitCode !== 0 ) {
+        throw new \Exception($output[0]);
+    }
+
+    return json_decode($output[0]);
+}
