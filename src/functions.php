@@ -41,10 +41,9 @@ function psr2Check(string $file): array
 
     exec($command, $output, $exitCode);
 
-    if ($exitCode === 0 ) {
-        return json_decode($output[0]);
-    }   
-    else {
+    if ($exitCode !== 0 ) {
         throw new \Exception($output[0]);
-    }   
+    }
+
+    return json_decode($output[0]);
 }
