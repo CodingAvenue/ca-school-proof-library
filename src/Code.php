@@ -10,6 +10,7 @@ class Code {
     const ANSWER_FILE_PATH = './code';
 
     private $raw;
+    private $parsed;
 
     public function __construct()
     {
@@ -23,10 +24,21 @@ class Code {
         }
 
         $this->raw = $content;
+        $this->parsed = new ParsedCode($content);
+    }
+
+    public function getStatements()
+    {
+        return $this->parsed->getStatements();
     }
 
     public function __toString()
     {
         return $this->raw;
+    }
+
+    public function analyzer()
+    {
+        return new Analyzer(self::ANSWER_FILE_PATH);
     }
 }

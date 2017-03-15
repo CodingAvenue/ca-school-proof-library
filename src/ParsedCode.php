@@ -9,12 +9,12 @@ class ParsedCode
 {
     private $parsed;
 
-    public function __construct()
+    public function __construct(string $code)
     {
         $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
 
         try {
-            $this->parsed = $parser->parse((new Code())->__toString());
+            $this->parsed = $parser->parse($code);
         } catch (Error $e) {
             throw new InvalidCodeError($e->getMessage());
         }
