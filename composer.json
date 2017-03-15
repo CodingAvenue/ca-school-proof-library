@@ -17,6 +17,7 @@
     },
     "require": {
         "nikic/php-parser": "^2.1",
-        "squizlabs/php_codesniffer": "2.*"
+        "squizlabs/php_codesniffer": "2.*",
+        "phpmd/phpmd" : "@stable"
     }
 }
