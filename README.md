@@ -9,7 +9,7 @@ use CodingAvenue\Proof\Code;
 use function CodingAvenue\Proof\{ findVariable };
 
 $code = new Code();
-$tokens = $code->getStatements();
+$tokens = $code->parser()->getStatements();
 
 $vars = findVariable($tokens, 'name');
 print_r($vars);
@@ -45,7 +45,7 @@ print_r($output)
 ```
 Array
 (
-    [isCompliant] => 0
+    [hasViolations] => 1
     [violations] => Array
         (
             [0] => Array
@@ -88,7 +88,7 @@ print_r($output)
 ```
 Array
 (
-    [messDetected] => 1
+    [hasViolations] => 1
     [violations] => Array
         (
             [0] => Array

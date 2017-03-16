@@ -27,11 +27,11 @@ class Analyzer {
         }
 
         $snifferOutput = json_decode($output[0], true);
-        $csOutput = [ 'isCompliant' => true ];
+        $csOutput = [ 'hasViolations' => true ];
 
         foreach ($snifferOutput['files'] as $file) {
             foreach ($file['messages'] as $message) {
-                $csOutput['isCompliant'] = false;
+                $csOutput['hasViolations'] = false;
 
                 $csOutput['violations'][] = [
                     'message'   => $message['message'],
@@ -57,11 +57,11 @@ class Analyzer {
 
         $xml = simplexml_load_string(implode("", $output));
 
-        $mdOutput = [ 'messDetected' => false ];
+        $mdOutput = [ 'hasViolations' => false ];
 
         if ($xml->file) {
             foreach($xml->file->children() as $violation) {
-                $mdOutput['messDetected'] = true;
+                $mdOutput['hasViolations'] = true;
 
                 $mdOutput['violations'][] = [
                     'message' => $violation,

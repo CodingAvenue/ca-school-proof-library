@@ -27,9 +27,9 @@ class Code {
         $this->parsed = new ParsedCode($content);
     }
 
-    public function getStatements()
+    public function parser()
     {
-        return $this->parsed->getStatements();
+        return $this->parsed;
     }
 
     public function __toString()
