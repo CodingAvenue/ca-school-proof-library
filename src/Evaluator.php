@@ -6,7 +6,7 @@ class Evaluator
 {
     private $code;
 
-    public function __constructor(string $code)
+    public function __construct(string $code)
     {
         $this->code = $code;
     }
