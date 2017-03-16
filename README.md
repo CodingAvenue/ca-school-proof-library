@@ -133,6 +133,7 @@ $evaled = $evaluator->evaluate();
 Array
 (
     [result] => return value of the evaluated code,
-    [output] => output of the evaluated code
+    [output] => output of the evaluated code,
+    [error] => The error message if the evaluated code throws an error.
 )
 ```

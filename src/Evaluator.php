@@ -16,9 +16,16 @@ class Evaluator
         $input = $this->prepareCode();
 
         ob_start();
-        $result = eval($input);
-        $output = ob_get_clean();
-
+        try {
+            $result = eval($input);
+        }
+        catch(\Error $e) {
+            return [ 'error' => $e->getMessage() ];
+        }
+        finally {
+            $output = ob_get_clean();
+        }
+        
         return [ result => $result, output => trim($output) ];
     }
 
