@@ -41,4 +41,9 @@ class Code {
     {
         return new Analyzer(self::ANSWER_FILE_PATH);
     }
+
+    public function evaluator()
+    {
+        return new Evaluator($this->raw);
+    }
 }

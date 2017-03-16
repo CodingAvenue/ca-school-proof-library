@@ -116,3 +116,23 @@ Array
 
 )
 ```
+
+### Evaluator
+
+```php
+use CodingAvenue\Proof\Code;
+
+$code = new Code();
+$evaluator = $code->evaluator();
+
+$evaled = $evaluator->evaluate();
+```
+
+**Result**
+```
+Array
+(
+    [result] => return value of the evaluated code,
+    [output] => output of the evaluated code
+)
+```
