@@ -18,7 +18,7 @@ class Analyzer {
     public function codingConvention(): array
     {
         $phpcs = VendorBin::getCS();
-        $command = sprintf("%s -q --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 --report=json --standard=PSR2 %s 2>&1", $phpcs, $self->file);
+        $command = sprintf("%s -q --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 --report=json --standard=PSR2 %s 2>&1", $phpcs, $this->file);
 
         exec($command, $output, $exitCode);
 
@@ -47,7 +47,7 @@ class Analyzer {
     public function messDetection(): array
     {
         $phpmd = VendorBin::getMD();
-        $command = sprintf("%s %s xml cleancode,codesize,controversial,design,naming,unusedcode --ignore-violations-on-exit 2>&1", $phpmd, $this->file);
+        $command = sprintf("%s %s xml cleancode,codesize,controversial,design,naming,unusedcode --ignore-violations-on-exit --suffixes '' 2>&1", $phpmd, $this->file);
 
         exec($command, $output, $exitCode);
 
