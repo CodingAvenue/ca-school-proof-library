@@ -18,15 +18,14 @@ class Evaluator
         ob_start();
         try {
             $result = eval($input);
+            $output = ob_get_clean();
+
+            return ['result' => $result, 'output' => trim($output)];
         }
         catch(\Error $e) {
-            return [ 'error' => $e->getMessage() ];
-        }
-        finally {
             $output = ob_get_clean();
+            return ['error' => $e->getMessage(), 'output' => trim($output)];
         }
-        
-        return [ result => $result, output => trim($output) ];
     }
 
     public function prepareCode(): string
