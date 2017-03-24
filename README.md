@@ -2,30 +2,22 @@
 
 ## Usage
 
-### findVariable
+### find if a variable name is used on the code
 
 ```php
 use CodingAvenue\Proof\Code;
-use function CodingAvenue\Proof\{ findVariable };
 
 $code = new Code();
-$tokens = $code->parser()->getStatements();
+$summary = $code->parser()->getSummary();
 
-$vars = findVariable($tokens, 'name');
-print_r($vars);
+$variable = $summary->findVariable('foo');
+echo $variable;
+
 ```
 
 **Result:**
 ```
-Array
-(
-    [0] => Array
-        (
-            [variable] => name
-            [value] => Jesse
-        )
-
-)
+foo
 
 ```
 

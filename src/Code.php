@@ -2,6 +2,8 @@
 
 namespace CodingAvenue\Proof;
 
+use CodingAvenue\Proof\Code\Parser;
+
 /**
  * @author Sandae P. Macalalag <sandaemc@gmail.com>
  */
@@ -10,7 +12,7 @@ class Code {
     const ANSWER_FILE_PATH = './code';
 
     private $raw;
-    private $parsed;
+    private $parser;
 
     public function __construct()
     {
@@ -24,12 +26,12 @@ class Code {
         }
 
         $this->raw = $content;
-        $this->parsed = new ParsedCode($content);
+        $this->parser = new Parser($content);
     }
 
     public function parser()
     {
-        return $this->parsed;
+        return $this->parser;
     }
 
     public function __toString()
