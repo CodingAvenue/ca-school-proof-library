@@ -39,7 +39,7 @@ class Expression
 
     private function __build(Expr $expr){
         if ($expr instanceof LNumber || $expr instanceof DNumber || $expr instanceof String_ || $expr instanceof EncapsedStringPart) {
-            $this->type = 'scalar';
+            $this->type = 'Scalar';
             $this->value = $expr->value;
         }
         elseif ($expr instanceof Encapsed) {
@@ -51,12 +51,12 @@ class Expression
                 }
             }
 
-            $this->type = 'interpolate';
+            $this->type = 'Interpolation';
             $this->value = implode("", $encapsed);
         }
         elseif ($expr instanceof Variable) {
-            $this->type = 'variable';
-            $this->value = "Variable:" . $expr->name;
+            $this->type = 'Variable';
+            $this->value = $expr->name;
         }
         elseif ($expr instanceof BinaryConcat) {
             if ($expr->left instanceof Expr) {
@@ -66,7 +66,7 @@ class Expression
                 $right = new self($expr->right);
             }
 
-            $this->type = 'concatenation';
+            $this->type = 'Concatenation';
             $this->value = $left->getValue() . $right->getValue();
         }
         elseif ($expr instanceof AssignConcat) {
@@ -74,7 +74,7 @@ class Expression
                 $assignExpr = new self($expr->expr);
             }
 
-            $this->type = 'assign concatenation';
+            $this->type = 'Assignment Concatenation';
             $this->value = $assignExpr->getValue();
         }
     }

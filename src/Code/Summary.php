@@ -49,12 +49,36 @@ class Summary
         return $this->summary['operators'];
     }
 
-    public function getOperator(string $name): array
+    public function getOperator(string $name, array $filters = null): array
     {
-        return array_value(
-            array_filter(function($operator) use ($name) {
-                return ($operator['type'] === $name);
-            }, $this->summary['operators'])
+        if (!filters) {
+            return $this->summary['operators'][$name];
+        }
+
+        // There has to be a better way of doing this.
+        array_value(
+            array_filter(function($operator) {
+                $match = true;
+
+                foreach($filters as $key => $value) {
+                    if($operator[$key] != $value) {
+                        $match = false;
+                        break;
+                    }
+                }
+
+                return $match;
+            }, $this->summary['operators'][$name])
         );
+    }
+
+    public function getAllConstructs(): array
+    {
+        return $this->summary['constructs'];
+    }
+
+    public function getConstruct(string $name): array
+    {
+        return $this->summary['constructs'][$name];
     }
 }

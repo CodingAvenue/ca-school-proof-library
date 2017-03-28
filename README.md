@@ -2,7 +2,12 @@
 
 ## Usage
 
-### find if a variable name is used on the code
+### find variable assignment
+
+**Input**
+```
+$name = 'Jerome';
+```
 
 ```php
 use CodingAvenue\Proof\Code;
@@ -10,14 +15,22 @@ use CodingAvenue\Proof\Code;
 $code = new Code();
 $summary = $code->parser()->getSummary();
 
-$variable = $summary->findVariable('foo');
-echo $variable;
+$assignments = $summary->getOperator('Assignment');
+print_r($assignments);
 
 ```
 
 **Result:**
 ```
-foo
+Array
+(
+    [0] => Array
+        (
+            [variable] => 'name',
+            [type] => 'Scalar',
+            [value] => 'Jerome'
+        )
+)
 
 ```
 

@@ -54,7 +54,7 @@ class SummaryFactory
         
         $summary = $this->start($node->stmts, $summary);
         
-        array_push($summary['function'], ['name' => $node->name, 'args' => $params, 'stmts' => $node->stmts]); //TODO need to expand $node->stmts
+        array_push($summary['functions'], ['name' => $node->name, 'args' => $params, 'stmts' => $node->stmts]); //TODO need to expand $node->stmts
 
         return $summary;
     }
@@ -73,7 +73,7 @@ class SummaryFactory
         if ($node->expr instanceof Expr) {
             $expression = new Expression($node->expr);
 
-            array_push($summary['assignment'], ['variable' => $node->var->name, 'type' => $expression->getType(), 'value' => $expression->getValue()]);
+            array_push($summary['operators']['assignment'], ['variable' => $node->var->name, 'type' => $expression->getType(), 'value' => $expression->getValue()]);
             $summary = $this->parseVariable($node->var, $summary);
         }
 
@@ -92,7 +92,7 @@ class SummaryFactory
             }
         }
 
-        array_push($summary['construct']['echo'], $args);
+        array_push($summary['constructs']['echo'], $args);
 
         return $summary;
     }
