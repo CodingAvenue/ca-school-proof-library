@@ -17,7 +17,7 @@ use PhpParser\Node\Stmt\{
 };
 
 use CodingAvenue\Proof\Code\Summary;
-use CodingAvenue\Proof\Code\SummaryFactory\Expression;
+use CodingAvenue\Proof\Code\Summary\Expression;
 
 class SummaryFactory
 {
@@ -36,30 +36,17 @@ class SummaryFactory
     protected function start(array $nodes, $summary = array()): array
     {
         foreach ($nodes as $node) {
-            if ($node instanceof Function_) {
-                $summary = $this->parseFunction($node, $summary);
-            }
-            else if ($node instanceof Variable) {
-                $summary = $this->parseVariable($node, $summary);
-            }
-            else if ($node instanceof Class_) {
-                $summary = $this->parseClass($node, $summary);
-            }
-            else if ($node instanceof FuncCall) {
-                $summary = $this->parseFuncCall($node, $summary);
-            }
-            else if ($node instanceof Assign) {
-                $summary = $this->parseAssign($node, $summary);
-            }
-            else if ($node instanceof Echo_) {
-                $summary = $this->parseEcho($node, $summary);
-            }
+            $className = get_class($node);
+            $className = str_replace("\\", ucwords($className));
+
+            $callMethod = "parse{$className}";
+            $summary = call_user_func_array([$this, $callMethod], [$node, $summary]);
         }
 
         return $summary;
     }
 
-    protected function parseFunction(array $node, array $summary): array
+    protected function parseFunction_(array $node, array $summary): array
     {
         $params = array_map(function ($param) {
             return ['name' => $param->name, 'default' => $param->default];
@@ -86,7 +73,7 @@ class SummaryFactory
         if ($node->expr instanceof Expr) {
             $expression = new Expression($node->expr);
 
-            array_push($summary['assign'], ['variable' => $node->var->name, 'type' => $expression->getType(), 'value' => $expression->getValue()]);
+            array_push($summary['assignment'], ['variable' => $node->var->name, 'type' => $expression->getType(), 'value' => $expression->getValue()]);
             $summary = $this->parseVariable($node->var, $summary);
         }
 
@@ -95,7 +82,7 @@ class SummaryFactory
         //TODO will need to handle non scalar assignment ops E.g. function calls, ternaries or other operators.
     }
 
-    protected function parseEcho(array $node, array $summary): array
+    protected function parseEcho_(array $node, array $summary): array
     {
         $args = [];
         foreach($node->exprs as $expr) {
@@ -105,12 +92,12 @@ class SummaryFactory
             }
         }
 
-        array_push($summary['operators']['echo'], $args);
+        array_push($summary['construct']['echo'], $args);
 
         return $summary;
     }
 
-    protected function parseClass(array $node, array $summary): array
+    protected function parseClass_(array $node, array $summary): array
     {
         $implements = array_map(function ($implement) {
             return $implement->parts[0];
