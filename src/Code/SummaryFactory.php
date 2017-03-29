@@ -2,22 +2,9 @@
 
 namespace CodingAvenue\Proof\Code;
 
-use PhpParser\Node\Scalar;
 use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\{
-    Variable,
-    Assign,
-    FuncCall
-};
-
-use PhpParser\Node\Stmt\{
-    Function_,
-    Class_,
-    Echo_
-};
-
 use CodingAvenue\Proof\Code\Summary;
-use CodingAvenue\Proof\Code\Summary\Expression;
+use CodingAvenue\Proof\Code\Summary\ExpressionFactory;
 
 class SummaryFactory
 {
@@ -54,7 +41,7 @@ class SummaryFactory
         
         $summary = $this->start($node->stmts, $summary);
         
-        array_push($summary['functions'], ['name' => $node->name, 'args' => $params, 'stmts' => $node->stmts]); //TODO need to expand $node->stmts
+        $summary['functions'][] = ['name' => $node->name, 'args' => $params, 'stmts' => $node->stmts]; //TODO need to expand $node->stmts
 
         return $summary;
     }
@@ -62,7 +49,7 @@ class SummaryFactory
     protected function parseVariable(array $node, array $summary): array
     {
         if (!in_array($summary['variable'], $node->name)) {
-            array_push($summary['variable'], $node->name);
+            $summary['variable'][] = $node->name;
         }
 
         return $summary;
@@ -71,15 +58,13 @@ class SummaryFactory
     protected function parseAssign(array $node, array $summary): array
     {
         if ($node->expr instanceof Expr) {
-            $expression = new Expression($node->expr);
+            $expression = ExpressionFactory::create($node->expr);
 
-            array_push($summary['operators']['assignment'], ['variable' => $node->var->name, 'type' => $expression->getType(), 'value' => $expression->getValue()]);
+            $summary['operators']['assignment'][] = ['variable' => $node->var->name, 'type' => $expression->getType(), 'value' => $expression->getValue()];
             $summary = $this->parseVariable($node->var, $summary);
         }
 
         return $summary;
-
-        //TODO will need to handle non scalar assignment ops E.g. function calls, ternaries or other operators.
     }
 
     protected function parseEcho_(array $node, array $summary): array
@@ -87,12 +72,12 @@ class SummaryFactory
         $args = [];
         foreach($node->exprs as $expr) {
             if ($expr instanceof Expr) {
-                $expression = new Expression($expr);
+                $expression = ExpressionFactory::create($expr);
                 $args[] = ['type' => $expression->getType(), 'value' => $expression->getValue()];
             }
         }
 
-        array_push($summary['constructs']['echo'], $args);
+        $summary['constructs']['echo'][] = $args;
 
         return $summary;
     }

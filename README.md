@@ -27,7 +27,7 @@ Array
     [0] => Array
         (
             [variable] => 'name',
-            [type] => 'Scalar',
+            [type] => 'scalar',
             [value] => 'Jerome'
         )
 )
