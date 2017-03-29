@@ -23,11 +23,17 @@ class SummaryFactory
     protected function start(array $nodes, $summary = array()): array
     {
         foreach ($nodes as $node) {
-            $className = get_class($node);
-            $className = str_replace("\\", ucwords($className));
+            $fullClassName = get_class($node);
+            $className = str_replace("\\", ucwords($fullClassName));
 
             $callMethod = "parse{$className}";
-            $summary = call_user_func_array([$this, $callMethod], [$node, $summary]);
+
+            if(method_exists($this, $callMethod)) {
+                $summary = call_user_func_array([$this, $callMethod], [$node, $summary]);
+            }
+            else {
+                throw new \Exception("Unknown method $callMethod. Don't know how to parse class $fullClassName.");
+            }
         }
 
         return $summary;
@@ -58,6 +64,11 @@ class SummaryFactory
     protected function parseAssign(array $node, array $summary): array
     {
         if ($node->expr instanceof Expr) {
+            // If expr is also another assignment instance we'll have to call parseAssign again. E.g $foo = $bar = 'something';
+            if ($node->expr instanceof \PhpParser\Node\Expr\Assign) {
+                $summary = $this->parseAssign($node->expr, $summary);
+            }
+
             $expression = ExpressionFactory::create($node->expr);
 
             $summary['operators']['assignment'][] = ['variable' => $node->var->name, 'type' => $expression->getType(), 'value' => $expression->getValue()];

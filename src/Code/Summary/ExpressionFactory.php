@@ -7,7 +7,7 @@ use PhpParser\Node\Expr;
 class ExpressionFactory {
     /**
      * Create an instance of CodingAvenue\Proof\Code\Summary\Expression subclass.
-     * The subclass name is identical to PhpParser\Node\Expr\ subclasses.
+     * The subclass name is identical to PhpParser\Node\Expr\ PhpParser\Node\Scalar\ subclasses.
      *
      * @param PhpParser\Node\Expr $expr - an instance of PhpParser Expr class.
      * @return An instance of a subclass from CodingAvenue\Proof\Code\Summary\Expression.
@@ -28,7 +28,7 @@ class ExpressionFactory {
         }
 
         // Appending the Expression part so can avoid a very large use statement.
-        $className = "Expression\$className";
+        $className = "Expression\\$className";
 
         return new $className($expr);
     }
