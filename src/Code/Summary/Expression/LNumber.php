@@ -7,6 +7,6 @@ use PhpParser\Node\Expr;
 class LNumber extends ScalarExpression {
     public function __construct(Expr $expr)
     {
-        parent::__constrcut($expr);
+        parent::__construct($expr);
     }
 }
