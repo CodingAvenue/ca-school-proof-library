@@ -10,9 +10,9 @@ class NodeFinder
      * But some construct are interchangeble also called as operators E.g. the logical operator 'or' is a construct also.
      */
     protected $operators = [
-        "assignment"    => "AssignmentFinder",
-        "echo"          => "EchoFinder",
-        "addition"      => "AdditionFinder"
+        "assignment"    => __NAMESPACE__ . "\NodeFinder\AssignmentFinder",
+        "echo"          => __NAMESPACE__ . "\NodeFinder\EchoFinder",
+        "addition"      => __NAMESPACE__ . "\NodeFinder\AdditionFinder"
     ];
 
     /**
@@ -53,7 +53,6 @@ class NodeFinder
         }
 
         unset($filter['name']);
-        $operatorFinder = $this->getFullClassName($operatorFinder);
 
         $finder = new $operatorFinder($nodes, $filter);
         return $finder->find();
@@ -77,16 +76,5 @@ class NodeFinder
     {
         $finder = new NodeFinder\FunctionFinder($nodes, $filter);
         return $finder->find();
-    }
-
-    /**
-     * Returns the full class name ( including the namespace ) of a NodeFinder class.
-     * For some reason passing one value of the $operators property will trigger a FATAL, class NodeVisitor\* not found.
-     *
-     * @param string $className the class name of a FinderAbstract class.
-     */
-    private function getFullClassName(string $className): string
-    {
-        return "CodingAvenue\\Proof\\Code\\NodeFinder\\" . $className;
     }
 }
