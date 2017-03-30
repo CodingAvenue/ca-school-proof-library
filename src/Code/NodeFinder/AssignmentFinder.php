@@ -32,7 +32,7 @@ class AssignmentFinder extends FinderAbstract
     {
         $class = self::CLASS_;
         return function($node) use ($class, $filter) {
-            if ($filter['variable']) {
+            if (isset($filter['variable'])) {
                 return ($node instanceof $class && $node->var->name === $filter['variable']);
             }
 

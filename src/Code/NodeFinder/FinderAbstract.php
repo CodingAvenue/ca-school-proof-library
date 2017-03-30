@@ -2,7 +2,7 @@
 
 namespace CodingAvenue\Proof\Code\NodeFinder;
 
-use PhpParser\NodeVisitor\FindingVisitor;
+use CodingAvenue\Proof\Code\Visitor;
 use PhpParser\NodeTraverser;
 
 abstract class FinderAbstract
@@ -12,7 +12,7 @@ abstract class FinderAbstract
 
     public function find()
     {
-        $visitor = new FindingVisitor($this->callBack);
+        $visitor = new Visitor($this->callBack);
 
         $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor);
@@ -21,5 +21,5 @@ abstract class FinderAbstract
         return $visitor->getFoundNodes();
     }
 
-    abstract function makeCallback();
+    abstract function makeCallback(array $filter);
 }

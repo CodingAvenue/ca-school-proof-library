@@ -18,7 +18,7 @@ class VariableFinder extends FinderAbstract
     {
         $class = self::CLASS_;
         return function($node) use ($class, $filter) {
-            if ($filter['name']) {
+            if (isset($filter['name'])) {
                 return ($node instanceof $class && $node->name === $filter['name']);
             }
 
