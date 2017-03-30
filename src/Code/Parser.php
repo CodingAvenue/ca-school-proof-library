@@ -4,8 +4,6 @@ namespace CodingAvenue\Proof\Code;
 
 use PhpParser\ParserFactory;
 use CodingAvenue\Proof\InvalidCodeError;
-use CodingAvenue\Proof\Code\Summary;
-use CodingAvenue\Proff\Code\SummaryFactory;
 
 class Parser
 {
@@ -24,10 +22,5 @@ class Parser
     public function getNodes(): array
     {
         return $this->nodes;
-    }
-
-    public function getSummary(): Summary
-    {
-        return (new SummaryFactory($this->nodes))->create();
     }
 }
