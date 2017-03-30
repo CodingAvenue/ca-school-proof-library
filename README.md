@@ -6,16 +6,22 @@
 
 **Input**
 ```
-$name = 'Jerome';
+$firstName = 'Jerome';
+$lastName = 'Suarez';
 ```
 
 ```php
 use CodingAvenue\Proof\Code;
 
 $code = new Code();
-$summary = $code->parser()->getSummary();
+$nodes = $code->parser()->getNodes();
 
-$assignments = $summary->getOperator('Assignment');
+$finder = new NodeFinder();
+// To find the nodes of a variable name firstName
+$variables = $finder->findVariable($nodes, ['name' => 'firstName']);
+// To find an assignment node whose variable is lastName
+$assignments = $finder->findOperator($nodes, ['name' => 'assignment', 'variable' => 'lastName']);
+print_r($variables);
 print_r($assignments);
 
 ```
@@ -24,11 +30,24 @@ print_r($assignments);
 ```
 Array
 (
-    [0] => Array
+    [0] => PhpParser\Node\Expr\Variable Object
         (
-            [variable] => 'name',
-            [type] => 'scalar',
-            [value] => 'Jerome'
+            [name] => 'firstName'
+        )
+)
+
+Array
+(
+    [0] => PhpParser\Node\Expr\Assign Object
+        (
+            [var] => PhpParser\Node\Expr\Variable Object
+                (
+                    [name] => 'lastName'
+                )
+            [expr] => PhpParser\Node\Scalar\String_ Object 
+                (
+                    [value] => 'Suarez'
+                )
         )
 )
 

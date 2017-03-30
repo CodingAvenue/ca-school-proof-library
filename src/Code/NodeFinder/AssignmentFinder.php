@@ -21,17 +21,21 @@ class AssignmentFinder extends FinderAbstract
     public function __construct(array $nodes, array $filter)
     {
         $this->nodes = $nodes;
-        $this->callBack = $this->makeCallback();
+        $this->callBack = $this->makeCallback($filter);
     }
 
     /**
      * Creates a callback for the NodeVisitor to use.
      * @return callable.
      */
-    public function makeCallback()
+    public function makeCallback(array $filter)
     {
         $class = self::CLASS_;
-        return function($node) use ($class) {
+        return function($node) use ($class, $filter) {
+            if ($filter['variable']) {
+                return ($node instanceof $class && $node->var->name === $filter['variable']);
+            }
+
             return $node instanceof $class;
         };
     }
