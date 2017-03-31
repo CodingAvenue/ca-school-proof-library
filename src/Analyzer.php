@@ -15,7 +15,7 @@ class Analyzer {
         $this->file = $file;
     }
 
-    public function codingConvention(): array
+    public function codingStandard(array $options): array
     {
         $phpcs = VendorBin::getCS();
         $command = sprintf("%s -q --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 --report=json --standard=PSR2 %s 2>&1", $phpcs, $this->file);
@@ -27,11 +27,15 @@ class Analyzer {
         }
 
         $snifferOutput = json_decode($output[0], true);
-        $csOutput = [ 'hasViolations' => true ];
+        $csOutput = [ 'hasViolations' => false ];
 
         foreach ($snifferOutput['files'] as $file) {
             foreach ($file['messages'] as $message) {
-                $csOutput['hasViolations'] = false;
+                if ($options['skipEndTagMessage'] && $message === 'A closing tag is not permitted at the end of a PHP file') {
+                    continue;
+                }
+                
+                $csOutput['hasViolations'] = true;
 
                 $csOutput['violations'][] = [
                     'message'   => $message['message'],
@@ -64,7 +68,7 @@ class Analyzer {
                 $mdOutput['hasViolations'] = true;
 
                 $mdOutput['violations'][] = [
-                    'message' => $violation,
+                    'message'   => $violation,
                     'beginLine' => $violation['beginline'],
                     'endLine'   => $violation['endline']
                 ];

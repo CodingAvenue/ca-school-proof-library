@@ -1,27 +1,26 @@
 <?php
 
-namespace CodingAvenue\Proof;
+namespace CodingAvenue\Proof\Code;
 
 use PhpParser\ParserFactory;
-use PhpParser\Error;
+use CodingAvenue\Proof\InvalidCodeError;
 
-class ParsedCode 
+class Parser
 {
-    private $parsed;
+    private $nodes;
 
     public function __construct(string $code)
     {
         $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
-
         try {
-            $this->parsed = $parser->parse($code);
+            $this->nodes = $parser->parse($code);
         } catch (Error $e) {
             throw new InvalidCodeError($e->getMessage());
         }
     }
 
-    public function getStatements()
+    public function getNodes(): array
     {
-        return $this->parsed;
+        return $this->nodes;
     }
 }
