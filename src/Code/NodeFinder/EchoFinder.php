@@ -28,7 +28,7 @@ class EchoFinder extends FinderAbstract
      * Creates a callback for the NodeVisitor to use.
      * @return callable.
      */
-    public function makeCallback()
+    public function makeCallback(array $filter = [])
     {
         $class = self::CLASS_;
         return function($node) use ($class) {

@@ -7,6 +7,7 @@ use PhpParser\NodeVisitorAbstract;
 
 /**
  * This is a copy of PhpParser\NodeVisitor\FindingVisitor class which isn't available on V3.0.5
+ *
  * This visitor can be used to find and collect all nodes satisfying some criterion determined by
  * a filter callback.
  */

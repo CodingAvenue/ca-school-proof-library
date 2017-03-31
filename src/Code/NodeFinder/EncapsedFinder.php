@@ -13,7 +13,7 @@ class EncapsedFinder extends FinderAbstract {
         $this->callBack = $this->makeCallback();
     }
 
-    public function makeCallback()
+    public function makeCallback(array $filter = [])
     {
         $class = self::CLASS_;
         return function($node) use ($class) {
