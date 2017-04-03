@@ -9,10 +9,11 @@ abstract class FinderAbstract
 {
     protected $nodes;
     protected $callBack;
+    protected $traverseChildren = true;
 
     public function find()
     {
-        $visitor = new Visitor($this->callBack);
+        $visitor = new Visitor($this->callBack, $this->traverseChildren);
 
         $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor);

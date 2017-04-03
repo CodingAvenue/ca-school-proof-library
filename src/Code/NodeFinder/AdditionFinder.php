@@ -8,6 +8,7 @@ class AdditionFinder extends FinderAbstract
     protected $nodes;
     /** @var callable The filter callback */
     protected $callBack;
+    protected $traverseChildren;
     /** @const string The class name that the node instance should match. */
     const CLASS_ = '\PhpParser\Node\Expr\BinaryOp\Plus';
 
@@ -18,9 +19,10 @@ class AdditionFinder extends FinderAbstract
      * @param array $nodes the nodes to be searched.
      * @param array $filter the filter to be used.
      */
-    public function __construct(array $nodes, array $filter)
+    public function __construct(array $nodes, array $filter, bool $traverseChildren)
     {
         $this->nodes = $nodes;
+        $this->traverseChildren = $traverseChildren;
         $this->callBack = $this->makeCallback();
     }
 

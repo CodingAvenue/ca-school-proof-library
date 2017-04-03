@@ -3,6 +3,7 @@
 namespace CodingAvenue\Proof;
 
 use CodingAvenue\Proof\Code\Parser;
+use CodingAvenue\Proof\Code\Nodes;
 
 /**
  * @author Sandae P. Macalalag <sandaemc@gmail.com>
@@ -12,7 +13,6 @@ class Code {
     const ANSWER_FILE_PATH = './code';
 
     private $raw;
-    private $parser;
 
     public function __construct()
     {
@@ -29,9 +29,9 @@ class Code {
         $this->parser = new Parser($content);
     }
 
-    public function parser()
+    public function parse()
     {
-        return $this->parser;
+        return Parser::parse($this->raw);
     }
 
     public function __toString()
@@ -47,5 +47,12 @@ class Code {
     public function evaluator()
     {
         return new Evaluator($this->raw);
+    }
+
+    public function find(string $selector)
+    {
+        $nodes = new Nodes($this->parse());
+
+        return $nodes->find($selector);
     }
 }

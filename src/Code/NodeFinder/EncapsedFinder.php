@@ -5,12 +5,14 @@ namespace CodingAvenue\Proof\Code\NodeFinder;
 class EncapsedFinder extends FinderAbstract {
     protected $nodes;
     protected $callBack;
+    protected $traverseChildren;
     const CLASS_ = '\PhpParser\Node\Scalar\Encapsed';
 
-    public function __construct(array $nodes)
+    public function __construct(array $nodes, array $filter, $traverseChildren)
     {
         $this->nodes = $nodes;
-        $this->callBack = $this->makeCallback();
+        $this->traverseChildren = $traverseChildren;
+        $this->callBack = $this->makeCallback($filter);
     }
 
     public function makeCallback(array $filter = [])

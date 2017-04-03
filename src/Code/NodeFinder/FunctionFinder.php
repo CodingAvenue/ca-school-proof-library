@@ -5,13 +5,15 @@ namespace CodingAvenue\Proof\Code\NodeFinder;
 class FunctionFinder extends FinderAbstract
 {
     protected $nodes;
-    protected $callback;
+    protected $callBack;
+    protected $traverseChildren;
     const CLASS_ = '\PhpParser\Node\Stmt\Function_';
 
-    public function __construct(array $nodes, array $filter)
+    public function __construct(array $nodes, array $filter, bool $traverseChildren = true)
     {
         $this->nodes = $nodes;
-        $this->callback = $this->makeCallback($filter);
+        $this->traverseChildren = $traverseChildren;
+        $this->callBack = $this->makeCallback($filter);
     }
 
     public function makeCallback(array $filter)
