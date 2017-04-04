@@ -15,7 +15,7 @@ class Analyzer {
         $this->file = $file;
     }
 
-    public function codingStandard(array $options): array
+    public function codingStandard(array $options = array()): array
     {
         $phpcs = VendorBin::getCS();
         $command = sprintf("%s -q --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 --report=json --standard=PSR2 %s 2>&1", $phpcs, $this->file);

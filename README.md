@@ -2,7 +2,7 @@
 
 ## Usage
 
-### find variable assignment
+### Node Finder
 
 **Input**
 ```
@@ -14,43 +14,11 @@ $lastName = 'Suarez';
 use CodingAvenue\Proof\Code;
 
 $code = new Code();
-$nodes = $code->parser()->getNodes();
+$nodes = $code->find('variable[name="firstname"]');
+echo $nodes->count(); // should return 1 since variable firstName was only used once.
 
-$finder = new NodeFinder();
-// To find the nodes of a variable name firstName
-$variables = $finder->findVariable($nodes, ['name' => 'firstName']);
-// To find an assignment node whose variable is lastName
-$assignments = $finder->findOperator($nodes, ['name' => 'assignment', 'variable' => 'lastName']);
-print_r($variables);
-print_r($assignments);
-
-```
-
-**Result:**
-```
-Array
-(
-    [0] => PhpParser\Node\Expr\Variable Object
-        (
-            [name] => 'firstName'
-        )
-)
-
-Array
-(
-    [0] => PhpParser\Node\Expr\Assign Object
-        (
-            [var] => PhpParser\Node\Expr\Variable Object
-                (
-                    [name] => 'lastName'
-                )
-            [expr] => PhpParser\Node\Scalar\String_ Object 
-                (
-                    [value] => 'Suarez'
-                )
-        )
-)
-
+$nodes = $code->find('assignment[variable="lastName"]');
+echo $nodes->count(); // Should return 1 since the variable lastName was assigned only once.
 ```
 
 ### Analyzer

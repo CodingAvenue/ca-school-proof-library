@@ -4,6 +4,7 @@ namespace CodingAvenue\Proof\Code;
 
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
+use PhpParser\NodeTraverser;
 
 /**
  * This is a copy of PhpParser\NodeVisitor\FindingVisitor class which isn't available on V3.0.5
@@ -17,9 +18,12 @@ class Visitor extends NodeVisitorAbstract {
     /** @var Node[] Found nodes */
     protected $foundNodes;
 
-    public function __construct(callable $filterCallback)
+    private $traverseChildren;
+
+    public function __construct(callable $filterCallback, bool $traverseChildren = true)
     {
         $this->filterCallback = $filterCallback;
+        $this->traverseChildren = $traverseChildren;
     }
     /**
      * Get found nodes satisfying the filter callback.
@@ -45,6 +49,11 @@ class Visitor extends NodeVisitorAbstract {
         if ($filterCallback($node)) {
             $this->foundNodes[] = $node;
         }
-        return null;
+
+        if ($this->traverseChildren) {
+            return null;
+        }
+
+        return NodeTraverser::DONT_TRAVERSE_CHILDREN;
     }
 }

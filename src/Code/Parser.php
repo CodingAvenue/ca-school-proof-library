@@ -7,20 +7,13 @@ use CodingAvenue\Proof\InvalidCodeError;
 
 class Parser
 {
-    private $nodes;
-
-    public function __construct(string $code)
+    public static function parse(string $code)
     {
         $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
         try {
-            $this->nodes = $parser->parse($code);
+            return $parser->parse($code);
         } catch (Error $e) {
             throw new InvalidCodeError($e->getMessage());
         }
-    }
-
-    public function getNodes(): array
-    {
-        return $this->nodes;
     }
 }
