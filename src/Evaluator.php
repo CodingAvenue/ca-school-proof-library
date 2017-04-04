@@ -24,7 +24,7 @@ class Evaluator
         }
         catch(\Error $e) {
             $output = ob_get_clean();
-            return ['error' => $e->getMessage(), 'output' => trim($output)];
+            return ['error' => $e->getMessage() . ' at line ' . $e->getLine(), 'output' => trim($output)];
         }
     }
 

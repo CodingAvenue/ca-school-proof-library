@@ -31,7 +31,7 @@ class Analyzer {
 
         foreach ($snifferOutput['files'] as $file) {
             foreach ($file['messages'] as $message) {
-                if ($options['skipEndTagMessage'] && $message === 'A closing tag is not permitted at the end of a PHP file') {
+                if (array_key_exists('skipEndTagMessage', $options) && $options['skipEndTagMessage'] && $message['message'] === 'A closing tag is not permitted at the end of a PHP file') {
                     continue;
                 }
                 
@@ -68,9 +68,9 @@ class Analyzer {
                 $mdOutput['hasViolations'] = true;
 
                 $mdOutput['violations'][] = [
-                    'message'   => $violation,
-                    'beginLine' => $violation['beginline'],
-                    'endLine'   => $violation['endline']
+                    'message'   => trim($violation->__toString()),
+                    'beginLine' => $violation['beginline']->__toString(),
+                    'endLine'   => $violation['endline']->__toString()
                 ];
             }
         }
