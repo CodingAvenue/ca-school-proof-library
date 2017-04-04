@@ -2,7 +2,6 @@
 
 namespace CodingAvenue\Proof\Code;
 
-use CodingAvenue\Proof\Code\PseudoFilter;
 use CodingAvenue\Proof\Code\Nodes\SelectorParser;
 use CodingAvenue\Proof\Code\Nodes\TokenStream;
 use CodingAvenue\Proof\Code\Nodes\StreamReader;
@@ -23,9 +22,11 @@ class Nodes
      * search the nodes filtered by a selector string.
      *
      * @param string the selector to be used to filter the search
+     * @param bool if we override the the behavior on the first round of filter to included descendants.
+     *        Used by children() which only apply the filter to it's immediate children
      * @return a new instance of Nodes. or null if no result is found.
      */
-    public function find(string $selector)
+    public function find(string $selector, $traverse = true)
     {
         $parser = new SelectorParser($selector);
         $stream = $parser->parse();
@@ -33,28 +34,23 @@ class Nodes
         $nodes = $this->nodes;
         $streamReader = new StreamReader($stream);
 
-        // Process the stream of tokens by group. The StreamReader class handles how the tokens are grouped.
-        // Each group is applied as a filter to the current $nodes default to the object $nodes attribute.
+        // Process the stream of tokens. Apply a series of NodeFilter to the nodes property.
         while ($streamReader->hasUnread()) {
-            list($method, $params, $pseudo, $traverseChildren) = $streamReader->readNext();
+            $firstRead = $streamReader->getReadCount() == 0 ? true : false;
 
-            if (isset($method)) {
-                $method = 'find' . $method;
-
-                if (!method_exists($this->finder, $method)) {
-                    throw new \Exception("Unknown method $method for NodeFinder class.");
-                }
-
-                $nodes = $this->finder->$method($nodes, $params, $traverseChildren);
-
-                // Stop the process if the result is empty.
-                if (is_null($nodes) || empty($nodes)) {
-                    break;
-                }
+            $nodeFilter = $streamReader->readNext();
+            
+            // Used on children() call since it needs to only traverse on the immediate children
+            if ($firstRead) {
+                $nodeFilter->setTraverseChildren($traverse);
             }
 
-            $pseudoFilter = new PseudoFilter($pseudo);
-            $nodes = $pseudoFilter->filter($nodes);
+            $nodes = $this->finder->applyFilter($nodeFilter, $nodes);
+            
+            // Stop the process if the result is empty.
+            if (is_null($nodes) || empty($nodes)) {
+                break;
+            }
         }
 
         return new self($nodes);
@@ -65,19 +61,22 @@ class Nodes
         return count($this->nodes);
     }
 
-    // Needs to code the if selector is not null.
     public function children($selector = null)
     {
+        $newNodes = [];
+
         if (is_null($selector)) {
-            $newNodes = [];
             foreach ($this->nodes as $node) {
                 foreach ($node->getSubNodeNames as $subnode) {
-                    $newNodes[] = $node->$subnode;
+                    if ($node->$subNode instanceof \PhpParser\NodeAbstract) {
+                        $newNodes[] = $node->$subnode;
+                    }
                 }
             }
 
             return new self($newNodes);
         }
         
+        return $this->find($selector, false);
     }
 }

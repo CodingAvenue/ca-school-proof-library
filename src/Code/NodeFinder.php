@@ -2,6 +2,9 @@
 
 namespace CodingAvenue\Proof\Code;
 
+use CodingAvenue\Proof\Code\NodesFilter;
+use CodingAvenue\Proof\Code\PseudoFilter;
+
 class NodeFinder
 {
     /**
@@ -26,6 +29,35 @@ class NodeFinder
     private $builtInFunctions = [
 
     ];
+
+    /**
+     * Apply a NodeFilter instance into the array of nodes.
+     *
+     * @param NodeFilter the filter to be applied
+     * @param array of nodes the nodes to be filtered
+     *
+     * @return array of nodes that has been filtered
+     */
+    public function applyFilter(NodesFilter $filter, array $nodes): array
+    {
+        if ($filter->hasAction()) {
+            $method = $filter->getAction();
+            if (!method_exists($this, $method)) {
+                throw new \Exception("Unknown method $method for NodeFinder class.");
+            }
+
+            $nodes = $this->$method($nodes, $filter->getParams(), $filter->getTraverseChildren());
+        }
+
+        if (empty($nodes)) {
+            return $nodes;
+        }
+
+        $pseudoFilter = new PseudoFilter($filter->getPseudo());
+        $nodes = $pseudoFilter->filter($nodes);
+
+        return $nodes;
+    }
 
     /**
      * Finds all variable nodes, can be filtered by the name of a variable.

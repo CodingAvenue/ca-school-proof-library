@@ -4,6 +4,7 @@ namespace CodingAvenue\Proof\Code\Nodes;
 
 use CodingAvenue\Proof\Code\Nodes\TokenStream;
 use CodingAvenue\Proof\Code\Nodes\Token;
+use CodingAvenue\Proof\Code\NodesFilter;
 
 class StreamReader
 {
@@ -18,9 +19,9 @@ class StreamReader
         $this->stream = $stream;
     }
 
-    public function readNext()
+    public function readNext(): NodesFilter
     {
-        $filter = array(null, [], null, $this->previousIsWhiteSpace() ? false : true);
+        $nodeFilter = new NodesFilter($this->previousIsWhiteSpace() ? false : true);
 
         while (true) {
             $token = $this->stream->getNext();
@@ -31,31 +32,30 @@ class StreamReader
             }
 
             if ($token->isNode()) {
-                $filter[0] = $this->readToken($token);
+                $nodeFilter->setAction($this->readToken($token));
                 continue;
             }
             elseif ($token->isAttr()) {
-                $filter[1] = $this->readToken($token);
+                $nodeFilter->setParams($this->readToken($token));
                 continue;
             }
             elseif ($token->isPseudo()) {
-                $filter[2] = $this->readToken($token);
+                $nodeFilter->setPseudo($this->readToken($token));
                 continue;
             }
             elseif ($token->isOperator()) {
-                $filter[3] = true;
+                $nodeFilter->setTraverseChildren(true);
                 continue;
             }
             
             break;
         }
         
-        return $filter;
+        return $nodeFilter;
     }
 
     public function readToken(Token $token)
     {
-        $filter = [];
         if ($token->isNode()) {
             if (in_array($token->getValue(), $this->nodeNames)) {
                 return ucwords($token->getValue());
@@ -70,6 +70,8 @@ class StreamReader
         elseif ($token->isPseudo()) {
             return $token->getValue();
         }
+
+        throw new \Exception("Unexpected Token found");
     }
 
     public function hasUnread()
