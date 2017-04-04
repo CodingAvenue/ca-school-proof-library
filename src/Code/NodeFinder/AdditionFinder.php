@@ -23,17 +23,17 @@ class AdditionFinder extends FinderAbstract
     {
         $this->nodes = $nodes;
         $this->traverseChildren = $traverseChildren;
-        $this->callBack = $this->makeCallback();
+        $this->callBack = $this->makeCallback($filter);
     }
 
     /**
      * Creates a callback for the NodeVisitor to use.
      * @return callable.
      */
-    public function makeCallback()
+    public function makeCallback(array $filter)
     {
         $class = self::CLASS_;
-        return function($node) use($class) {
+        return function($node) use($class, $filter) {
             return $node instanceof $class;
         };
     }

@@ -49,10 +49,13 @@ class Code {
         return new Evaluator($this->raw);
     }
 
+    public function getNodes()
+    {
+        return new Nodes($this->parse());
+    }
+
     public function find(string $selector)
     {
-        $nodes = new Nodes($this->parse());
-
-        return $nodes->find($selector);
+        return $this->getNodes()->find($selector);
     }
 }

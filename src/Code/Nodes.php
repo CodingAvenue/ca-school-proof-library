@@ -39,7 +39,7 @@ class Nodes
             $firstRead = $streamReader->getReadCount() == 0 ? true : false;
 
             $nodeFilter = $streamReader->readNext();
-            
+
             // Used on children() call since it needs to only traverse on the immediate children
             if ($firstRead) {
                 $nodeFilter->setTraverseChildren($traverse);
@@ -63,20 +63,33 @@ class Nodes
 
     public function children($selector = null)
     {
-        $newNodes = [];
+        $subNodes = $this->getSubnode($this->nodes);
 
         if (is_null($selector)) {
-            foreach ($this->nodes as $node) {
-                foreach ($node->getSubNodeNames as $subnode) {
-                    if ($node->$subNode instanceof \PhpParser\NodeAbstract) {
-                        $newNodes[] = $node->$subnode;
-                    }
-                }
-            }
-
-            return new self($newNodes);
+            return $subNodes;
         }
         
-        return $this->find($selector, false);
+        return $subNode->find($selector, false);
+    }
+
+    public function getSubnode(array $nodes)
+    {
+        $newNodes = [];
+        foreach ($nodes as $node) {
+            foreach ($node->getSubNodeNames() as $subNode) {
+                if (is_array($node->$subNode)) {
+                    $newNodes = array_merge($newNodes, $node->$subNode);
+                    continue;
+                }
+                elseif ($node->$subNode instanceof \PhpParser\NodeAbstract) {
+                    $newNodes[] = $subNode;
+                    continue;
+                }
+
+                throw new \Exception("Unknown node type " . gettype($node->$subNode));
+            }
+        }
+
+        return new self($newNodes);
     }
 }
