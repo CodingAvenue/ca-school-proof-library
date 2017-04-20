@@ -1,4 +1,24 @@
-# Coding Aveue PHP Proof Library
+# Coding Avenue PHP Proof Library
+
+## Installation
+
+Add the following to your `composer.json` file
+
+```
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/CodingAvenue/ca-school-proof-library"
+        }
+    ],
+    "require": {
+        "codingavenue/php-proof": "0.0.4"
+    }
+}
+```
+
+Then do `composer update`
 
 ## Usage
 

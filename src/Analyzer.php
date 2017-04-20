@@ -5,6 +5,7 @@ namespace CodingAvenue\Proof;
 class Analyzer {
 
     private $file;
+    CONST MD_RULES = array('cleancode', 'codesize', 'controversial', 'design', 'naming', 'unusedcode');
 
     public function __construct(string $file)
     {
@@ -31,8 +32,9 @@ class Analyzer {
 
         foreach ($snifferOutput['files'] as $file) {
             foreach ($file['messages'] as $message) {
-                if (array_key_exists('skipEndTagMessage', $options) && $options['skipEndTagMessage'] && $message['message'] === 'A closing tag is not permitted at the end of a PHP file') {
-                    continue;
+                if (array_key_exists('skipEndTagMessage', $options)
+                    && $options['skipEndTagMessage'] && $message['message'] === 'A closing tag is not permitted at the end of a PHP file') {
+                        continue;
                 }
                 
                 $csOutput['hasViolations'] = true;
@@ -48,10 +50,20 @@ class Analyzer {
         return $csOutput;   
     }
 
-    public function messDetection(): array
+    public function messDetection(array $rules = array()): array
     {
+        foreach ($rules as $rule) {
+            if(!in_array($rule, self::MD_RULES)) {
+                throw new \Exception("Unknown rule $rule, Available rules are [" . implode(", ", self::MD_RULES) . "]");
+            }
+        }
+
+        if (empty($rules)) {
+            $rules = self::MD_RULES;
+        }
+
         $phpmd = VendorBin::getMD();
-        $command = sprintf("%s %s xml cleancode,codesize,controversial,design,naming,unusedcode --ignore-violations-on-exit --suffixes '' 2>&1", $phpmd, $this->file);
+        $command = sprintf("%s %s xml %s --ignore-violations-on-exit --suffixes '' 2>&1", $phpmd, $this->file, implode(",", $rules));
 
         exec($command, $output, $exitCode);
 

@@ -10,23 +10,29 @@ use CodingAvenue\Proof\Code\Nodes;
  */
 class Code {
 
-    const ANSWER_FILE_PATH = './code';
+    const ANSWER_FILE_PATH = '/code';
 
     private $raw;
+    private $userCode;
 
     public function __construct()
     {
-        if (!file_exists(self::ANSWER_FILE_PATH)) {
-            throw new \Exception("Answer file (./code) not found.");
+        $this->userCode = $this->getUserCode();
+        if (!file_exists($this->userCode)) {
+            throw new \Exception("Answer file {$this->userCode} not found.");
         }
 
-        $content = file_get_contents(self::ANSWER_FILE_PATH);
+        $content = file_get_contents($this->userCode);
         if (!$content) {
-            throw new \Exception("Unable to read answer file (./code).");
+            throw new \Exception("Unable to read answer file {$this->userCode}.");
         }
 
         $this->raw = $content;
-        $this->parser = new Parser($content);
+    }
+
+    protected function getUserCode()
+    {
+        return self::ANSWER_FILE_PATH;
     }
 
     public function parse()
@@ -41,7 +47,7 @@ class Code {
 
     public function analyzer()
     {
-        return new Analyzer(self::ANSWER_FILE_PATH);
+        return new Analyzer($this->userCode);
     }
 
     public function evaluator()

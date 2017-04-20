@@ -4,7 +4,7 @@ namespace CodingAvenue\Proof\Code;
 
 class NodesFilter
 {
-    private $actions = array('function', 'variable', 'interpolation', 'encapsedstring', 'operator', 'construct');
+    private $actions = array('function', 'variable', 'interpolation', 'encapsedstring', 'operator', 'construct', 'string');
 
     private $action;
     private $params = array();

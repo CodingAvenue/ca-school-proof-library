@@ -61,6 +61,18 @@ class Nodes
         return count($this->nodes);
     }
 
+    public function text()
+    {
+        $nodes = $this->find('string');
+
+        $text = '';
+        foreach ($nodes->getNodes() as $node) {
+            $text .= $node->value;
+        }
+
+        return $text;
+    }
+
     public function children($selector = null)
     {
         $subNodes = $this->getSubnode($this->nodes);
@@ -91,5 +103,10 @@ class Nodes
         }
 
         return new self($newNodes);
+    }
+
+    public function getNodes()
+    {
+        return $this->nodes;
     }
 }

@@ -4,27 +4,42 @@ namespace CodingAvenue\Proof;
 
 class Evaluator
 {
+    /* @var string a string of code to be evaluated */
     private $code;
 
+    /**
+     * Evaluator class - evaluates a string of php code.
+     * Returns the result of the evaluated code and (if any) the output of the code
+     * throws an error if the code has a parsing error.
+     */
     public function __construct(string $code)
     {
         $this->code = $code;
     }
 
-    public function evaluate(): array
+    public function evaluate($code = null): array
     {
         $input = $this->prepareCode();
 
+        if (!is_null($code)) {
+            $input .= $code;
+        }
+
+        return $this->doEval($input);
+    }
+
+    public function doEval(string $code)
+    {
         ob_start();
         try {
-            $result = eval($input);
+            $result = eval($code);
             $output = ob_get_clean();
 
-            return ['result' => $result, 'output' => trim($output)];
+            return array('result' => $result, 'output' => trim($output));
         }
         catch(\Error $e) {
             $output = ob_get_clean();
-            return ['error' => $e->getMessage() . ' at line ' . $e->getLine(), 'output' => trim($output)];
+            return array('error' => $e->getMessage() . ' at line ' . $e->getLine(), 'output' => trim($output));
         }
     }
 

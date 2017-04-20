@@ -12,7 +12,7 @@ class StreamReader
     private $read = array();
 
     // This list might grow more.
-    private $nodeNames = array('function', 'operator', 'construct', 'variable', 'class', 'builtin', 'interpolation');
+    private $nodeNames = array('function', 'operator', 'construct', 'variable', 'class', 'builtin', 'interpolation', 'string');
 
     public function __construct(TokenStream $stream)
     {

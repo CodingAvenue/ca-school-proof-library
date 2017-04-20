@@ -63,7 +63,7 @@ class NodeFinder
      * Finds all variable nodes, can be filtered by the name of a variable.
      *
      * @param array $nodes The nodes to be searched.
-     * @param array $filter An optional array with a 'name' key that will be used to filter the variable namespace
+     * @param array $filter An optional array with a 'name' key that will be used to filter the variable name
      * @return array of variable nodes.
      */
     public function findVariable(array $nodes, $filter = array(), $traverseChildren = true): array
@@ -173,6 +173,12 @@ class NodeFinder
         unset($filter['name']);
 
         $finder = new $constructFinder($nodes, $filter, $traverseChildren);
+        return $finder->find();
+    }
+
+    public function findString($nodes, $filter, $traverseChildren = true): array
+    {
+        $finder = new NodeFinder\StringFinder($nodes, $filter, $traverseChildren);
         return $finder->find();
     }
 }

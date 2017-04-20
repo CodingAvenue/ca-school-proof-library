@@ -2,12 +2,12 @@
 
 namespace CodingAvenue\Proof\Code\NodeFinder;
 
-class EncapsedStringFinder extends FinderAbstract
+class StringFinder extends FinderAbstract
 {
+
     protected $nodes;
     protected $callBack;
     protected $traverseChildren;
-    const CLASS_ = '\PhpParser\Node\Scalar\EncapsedStringPart';
 
     public function __construct(array $nodes, array $filter, bool $traverseChildren)
     {
@@ -18,9 +18,11 @@ class EncapsedStringFinder extends FinderAbstract
 
     public function makeCallback(array $filter)
     {
-        $class = self::CLASS_;
-        return function($node) use ($class) {
-            return $node instanceof $class;
+        return function($node)  {
+            return ($node instanceof \PhpParser\Node\Scalar\DNumber
+                || $node instanceof \PhpParser\Node\Scalar\EncapsedStringPart
+                || $node instanceof \PhpParser\Node\Scalar\LNumber
+                || $node instanceof \PhpParser\Node\Scalar\String_);
         };
     }
 }
