@@ -10,32 +10,43 @@ class Config
     private $testDir;
     private $defaultConfiguration;
 
+    private $defaultSettings = array(
+        "codeFilePath" => "/code",
+        "verbose" => false,
+        "testAnswerDir" => "answers",
+        "testDir" => "tests",
+        "defaultConfiguration" => false
+    );
+
     /**
-     * Create an instance to Config class, accepts an optional config file. Default to proof.json
+     * Create an instance to Config class
+     * The default settings will be used and can be overwritten by creating a proof.json file
+     * at the current working directory.
      */
-    public function __construct($configFile = null)
+    public function __construct()
     {
-        if (is_null($configFile)) {
-            $configFile = realpath("proof.json");
-        }
+        $configFile = realpath("proof.json");
 
-        if (!file_exists($configFile)) {
-            // This shouldn't happen
-            throw new \Exception("Cannot find configuration file");
+        if (file_exists($configFile)) {
+            $config = json_decode(file_get_contents($configFile), true);
+            $config = array_merge($this->defaultSettings, $config);
+            $this->loadConfiguration($config);
         }
+        else {
+            $config = $this->defaultSettings;
+            $config['defaultConfiguration'] = true;
 
-        $this->readConfigFile($configFile);
+            $this->loadConfiguration($config);
+        }
     }
 
-    public function readConfigFile(string $configFile)
+    public function loadConfiguration($config)
     {
-        $config = json_decode(file_get_contents($configFile), true);
-
-        $this->codeFilePath = $config['codeFilePath'] ?: '/code';
-        $this->verbose = isset($config['verbose']) ? $config['verbose'] : false;
-        $this->answerDir = isset($config['testAnswerDir']) ? $config['testAnswerDir'] : 'answers';
-        $this->testDir = isset($config['testDir']) ? $config['testDir'] : 'tests';
-        $this->defaultConfiguration = isset($config['defaultConfiguration']) ? $config['defaultConfiguration'] : false;
+        $this->codeFilePath = $config['codeFilePath'];
+        $this->verbose = $config['verbose'];
+        $this->testAnswerDir = $config['testAnswerDir'];
+        $this->testDir = $config['testDir'];
+        $this->defaultConfiguration = $config['defaultConfiguration'];
     }
 
     public function getCodeFilePath()
