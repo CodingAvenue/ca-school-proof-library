@@ -17,6 +17,13 @@ class Evaluator
         $this->code = $code;
     }
 
+    /**
+     * Evaluates the code. Accepts an optional additional code that will be appended to the existing code
+     * Useful if you want to output some values
+     *
+     * @param string|null $code a string of code that will be appended
+     * @return the result of the evaluated code and it's output
+     */
     public function evaluate($code = null): array
     {
         $input = $this->prepareCode();

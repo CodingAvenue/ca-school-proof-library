@@ -8,12 +8,12 @@ Add the following to your `composer.json` file
 {
     "repositories": [
         {
-            "type": "vcs",
+            "type": "git",
             "url": "https://github.com/CodingAvenue/ca-school-proof-library"
         }
     ],
     "require": {
-        "codingavenue/php-proof": "0.0.4"
+        "codingavenue/php-proof": "0.0.6"
     }
 }
 ```
@@ -149,3 +149,30 @@ Array
     [error] => The error message if the evaluated code throws an error.
 )
 ```
+
+## Local Testing
+
+to run just do `./vendor/bin/proof-runner path/to/your/proofFile.php`
+
+To test your proof file locally, this package comes with a proof-runner script that you can use to do the heavy lifting.
+You will need to create a configuration file `proof.json` on your project root directory. The supported settings are the following
+
+ - **codeFilepath** - The path where the Code() class will look for your test code that will be used against your proof file.
+ - **answerDir**    - The base directory where all of your test answers code are located.
+ - **proofDir**     - The base directory where all of your proof files are located.
+
+proof-runner relies on a naming convention to be able to find your test code file that will be used against a proof file.
+
+ * Your answer file must have the same name as your
+ * It must have the same path part of the proof file from the proofDir. E.g. if you have the following `proof.json` file
+    ```
+    {
+        "codeFilePath": "./code",
+        "answerDir": "answers",
+        "proofDir": "tests"
+    }
+    ```
+    Then your proof file is at `tests/chapter1/test1.php`, you should have your test answer code at `answers/chapter1/test1.php`
+
+To run the example above you will do `./vendor/bin/proof-runner tests/chapter1/test1.php` and it will use the `answers/chapter1/test1.php` content as the code.
+Behind the scene it will copy the content of `answers/chapter1/test1.php` to the value of `codeFilepath` before executing `phpunit`.

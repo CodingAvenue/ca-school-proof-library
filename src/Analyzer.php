@@ -2,11 +2,22 @@
 
 namespace CodingAvenue\Proof;
 
+/**
+ * Class that analyzes a php file
+ * Currently has two ways to analyze the php file, PSR2 coding standard and Mess Detection
+ */
 class Analyzer {
-
-    private $file;
+    /** array of Mess Detection rules. This are the default rules of Mess Detection. */
     CONST MD_RULES = array('cleancode', 'codesize', 'controversial', 'design', 'naming', 'unusedcode');
 
+    /** @var file string The path to the php file to be analyze. */
+    private $file;
+
+    /**
+     * Constructor
+     * 
+     * @param string $file The php file to be analyze
+     */
     public function __construct(string $file)
     {
         if (!file_exists($file)) {
@@ -16,6 +27,17 @@ class Analyzer {
         $this->file = $file;
     }
 
+    /**
+     * Analyze the coding standard of the php file against PSR2 standards
+     *
+     * @param array $options Currently only support one option which is skipEndTagMessage which will ignore the closing tag message
+     * @return array $csOutput an array with two keys
+     *          - hasViolations bool True if it has found a violation on the PSR2 coding standard, false otherwise
+     *          - violations array An array of violations. Each element of the array is also an array with the following elements
+     *              - message string The violation message
+     *              - line int|string the line number on the php file where the violation occur
+     *              - column int|string the column number on the php file where the violation occur.
+     */
     public function codingStandard(array $options = array()): array
     {
         $phpcs = VendorBin::getCS();
@@ -50,6 +72,17 @@ class Analyzer {
         return $csOutput;   
     }
 
+    /**
+     * Analyze the php file for Mess Detection
+     *
+     * @param array $rules The rules to be used for the mess detection test.
+     * @return array $mdOutput an array with two keys
+     *          - hasViolations bool True if the mess detection test found any issue, false otherwise
+     *          - violations array An array of violations. Each element of the array is also an array with the following elements
+     *              - message string The violation message
+     *              - beginLine int|string the line number on the php file where the violation occur
+     *              - endLine int|string the column number on the php file where the violation occur.
+     */
     public function messDetection(array $rules = array()): array
     {
         foreach ($rules as $rule) {

@@ -10,9 +10,8 @@ else {
     require_once(__DIR__. '/../../vendor/autoload.php');
 }
 
-// Set our environment
-putenv("PROOF_LIBRARY_MODE=default");
-
+// Set our environment. This should allow the sandbox to only use the default settings and not the `proof.json` config.
+putenv("PROOF_LIBRARY_MODE=local");
 
 use CodingAvenue\Proof\Command\ProofRunner;
 use Symfony\Component\Console\Application;

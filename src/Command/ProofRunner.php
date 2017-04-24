@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use CodingAvenue\Proof\Config;
-use CodingAvenue\Proof\CLI\TestCodeFinder;
+use CodingAvenue\Proof\CLI\AnswerFileFinder;
 
 class ProofRunner extends Command
 {
@@ -46,14 +46,14 @@ class ProofRunner extends Command
                 $output->writeln("Preparing file {$file}", OutputInterface::VERBOSITY_VERBOSE);
                 $output->writeln("Resolving test file code to be used on this test.", OutputInterface::VERBOSITY_VERBOSE);
 
-                $testCodeFinder = new TestCodeFinder($config->getTestAnswerDir(), $config->getTestDir());
-                $testCode = $testCodeFinder->findTestCode($file);
+                $answerFileFinder = new AnswerFileFinder($config->getAnswerDir(), $config->getProofDir());
+                $answerFile = $answerFileFinder->resolve($file);
 
-                $output->writeln("Using test file {$testCode} for this test as code input.", OutputInterface::VERBOSITY_VERBOSE);
+                $output->writeln("Using test file {$answerFilee} for this test as code input.", OutputInterface::VERBOSITY_VERBOSE);
                 $output->writeln("Copying content to {$config->getCodeFilePath()}", OutputInterface::VERBOSITY_VERBOSE);
 
                 $fileHandler = fopen($config->getCodeFilePath(), 'w');
-                fwrite($fileHandler, file_get_contents($testCode));
+                fwrite($fileHandler, file_get_contents($answerFile));
 
                 $output->writeln("Copy completed.", OutputInterface::VERBOSITY_VERBOSE);
             }
