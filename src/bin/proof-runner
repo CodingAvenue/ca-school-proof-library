@@ -1,0 +1,20 @@
+#!/usr/bin/env php
+<?php
+
+if (file_exists(__DIR__. '/../../../autoload.php')) {
+    //proof-library is part of a composer installation.
+    require_once(__DIR__. '/../../../autload.php');
+}
+else {
+    // For dev testing.
+    require_once(__DIR__. '/../../vendor/autoload.php');
+}
+
+
+use CodingAvenue\Proof\Command\ProofRunner;
+use Symfony\Component\Console\Application;
+
+$application = new Application();
+$application->add(new ProofRunner());
+$application->setDefaultCommand('codingavenue:proof-runner', true);
+$application->run();

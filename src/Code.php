@@ -4,27 +4,27 @@ namespace CodingAvenue\Proof;
 
 use CodingAvenue\Proof\Code\Parser;
 use CodingAvenue\Proof\Code\Nodes;
+use CodingAvenue\Proof\Config;
 
 /**
  * @author Sandae P. Macalalag <sandaemc@gmail.com>
  */
 class Code {
 
-    const ANSWER_FILE_PATH = '/code';
-
     private $raw;
-    private $userCode;
+    private $config;
 
     public function __construct()
     {
-        $this->userCode = $this->getUserCode();
-        if (!file_exists($this->userCode)) {
-            throw new \Exception("Answer file {$this->userCode} not found.");
+        $this->config = new Config();
+
+        if (!file_exists($this->getUserCode())) {
+            throw new \Exception("Answer file {$this->getUserCode()} not found.");
         }
 
-        $content = file_get_contents($this->userCode);
+        $content = file_get_contents($this->getUserCode());
         if (!$content) {
-            throw new \Exception("Unable to read answer file {$this->userCode}.");
+            throw new \Exception("Unable to read answer file {$this->getUserCode()}.");
         }
 
         $this->raw = $content;
@@ -32,7 +32,13 @@ class Code {
 
     protected function getUserCode()
     {
-        return self::ANSWER_FILE_PATH;
+        
+        return $this->config->getCodeFilePath();
+    }
+
+    public function getConfig()
+    {
+        return $this->config;
     }
 
     public function parse()
@@ -47,7 +53,7 @@ class Code {
 
     public function analyzer()
     {
-        return new Analyzer($this->userCode);
+        return new Analyzer($this->getUserCode());
     }
 
     public function evaluator()
