@@ -10,6 +10,9 @@ else {
     require_once(__DIR__. '/../../vendor/autoload.php');
 }
 
+// Set our environment
+putenv("PROOF_LIBRARY_MODE=default");
+
 
 use CodingAvenue\Proof\Command\ProofRunner;
 use Symfony\Component\Console\Application;

@@ -59,9 +59,9 @@ class ProofRunner extends Command
             }
 
             $out = array();
-            $output->writeln("Running command `phpunit {$file}`", OutputInterface::VERBOSITY_VERBOSE);
+            $output->writeln("Running command `phpunit --verbose --tap {$file}`", OutputInterface::VERBOSITY_VERBOSE);
 
-            exec("phpunit {$file}", $out);
+            exec("phpunit --verbose --tap {$file}", $out);
 
             foreach ($out as $line) {
                 $output->writeln($line);

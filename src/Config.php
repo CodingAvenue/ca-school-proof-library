@@ -25,9 +25,9 @@ class Config
      */
     public function __construct()
     {
-        $configFile = realpath("proof.json");
+        $configFile = getenv("PROOF_LIBRARY_MODE") === 'default' ? realpath("proof.json") : null;
 
-        if (file_exists($configFile)) {
+        if ($configFile && file_exists($configFile)) {
             $config = json_decode(file_get_contents($configFile), true);
             $config = array_merge($this->defaultSettings, $config);
             $this->loadConfiguration($config);
