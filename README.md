@@ -152,8 +152,6 @@ Array
 
 ## Local Testing
 
-to run just do `./vendor/bin/proof-runner path/to/your/proofFile.php`
-
 To test your proof file locally, this package comes with a proof-runner script that you can use to do the heavy lifting.
 You will need to create a configuration file `proof.json` on your project root directory. The supported settings are the following
 
