@@ -5,6 +5,10 @@
         {
             "name": "Sandae Macalalag",
             "email": "sandaemc@gmail.com"
+        },
+        {
+            "name": "Jerome Suarez",
+            "email": "jerome.suarez@codingavenue.com"
         }
     ],
     "autoload": {

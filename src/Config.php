@@ -26,9 +26,8 @@ class Config
     private $defaultSettings = array(
         "codeFilePath" => "/code",
         "verbose" => false,
-        "testAnswerDir" => "answers",
-        "testDir" => "tests",
-        "defaultConfiguration" => true
+        "answerDir" => "answers",
+        "proofDir" => "tests"
     );
 
     /**
@@ -47,13 +46,15 @@ class Config
         if ($configFile && file_exists($configFile)) {
             $config = json_decode(file_get_contents($configFile), true);
             $config = array_merge($this->defaultSettings, $config);
-            $config['defaultConfiguration'] = false; // This setting cannot be set by the config file since this is internal
-
             $this->loadConfiguration($config);
+
+            $this->defaultConfiguration = false;
         }
         else {
             $config = $this->defaultSettings;
             $this->loadConfiguration($config);
+            
+            $this->defaultConfiguration = true;
         }
     }
 
@@ -68,7 +69,6 @@ class Config
         $this->verbose = $config['verbose'];
         $this->answerDir = $config['answerDir'];
         $this->proofDir = $config['proofDir'];
-        $this->defaultConfiguration = $config['defaultConfiguration'];
     }
 
     /**

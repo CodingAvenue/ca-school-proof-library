@@ -83,7 +83,7 @@ class NodeFinder
      */
     public function findInterpolation(array $nodes, $filter = array(), $traverseChildren = true): array
     {
-        $finder = new NodeFinder\EncapsedFinder($nodes, array(), $traverseChildren);
+        $finder = new NodeFinder\EncapsedFinder($nodes, $filter, $traverseChildren);
         return $finder->find();
     }
 

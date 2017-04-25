@@ -81,7 +81,7 @@ class Nodes
             return $subNodes;
         }
         
-        return $subNode->find($selector, false);
+        return $subNodes->find($selector, false);
     }
 
     public function getSubnode(array $nodes)
@@ -94,14 +94,14 @@ class Nodes
                     continue;
                 }
                 elseif ($node->$subNode instanceof \PhpParser\NodeAbstract) {
-                    $newNodes[] = $subNode;
+                    $newNodes[] = $node->$subNode;
                     continue;
                 }
 
                 throw new \Exception("Unknown node type " . gettype($node->$subNode));
             }
         }
-
+        
         return new self($newNodes);
     }
 
