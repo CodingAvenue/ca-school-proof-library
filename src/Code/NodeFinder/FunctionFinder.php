@@ -19,8 +19,13 @@ class FunctionFinder extends FinderAbstract
     public function makeCallback(array $filter)
     {
         $class = self::CLASS_;
+        
         return function($node) use ($class, $filter) {
-            return ($node instanceof $class && $node->name === $filter['name']);
+            if (isset($filter['name'])) {
+                return ($node instanceof $class && $node->name === $filter['name']);
+            }
+
+            return $node instanceof $class;
         };
     }
 }

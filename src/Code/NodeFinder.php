@@ -12,7 +12,6 @@ class NodeFinder
      */
     private static $operators = [
         "assignment"    => __NAMESPACE__ . "\NodeFinder\AssignmentFinder",
-        "echo"          => __NAMESPACE__ . "\NodeFinder\EchoFinder",
         "addition"      => __NAMESPACE__ . "\NodeFinder\AdditionFinder"
     ];
 
