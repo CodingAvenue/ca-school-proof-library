@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use CodingAvenue\Proof\VendorBin;
 use CodingAvenue\Proof\Config;
 use CodingAvenue\Proof\CLI\AnswerFileFinder;
 
@@ -59,9 +60,10 @@ class ProofRunner extends Command
             }
 
             $out = array();
-            $output->writeln("Running command `vendor/bin/phpunit --verbose --tap {$file}`", OutputInterface::VERBOSITY_VERBOSE);
+            $phpUnit = VendorBin::getPHPUnit();
+            $output->writeln("Running command `{$phpUnit} --verbose --tap {$file}`", OutputInterface::VERBOSITY_VERBOSE);
 
-            exec("vendor/bin/phpunit --verbose --tap {$file}", $out);
+            exec("{$phpUnit} --verbose --tap {$file}", $out);
 
             foreach ($out as $line) {
                 $output->writeln($line);
