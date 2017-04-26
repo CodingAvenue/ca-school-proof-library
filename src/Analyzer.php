@@ -31,12 +31,11 @@ class Analyzer {
      * Analyze the coding standard of the php file against PSR2 standards
      *
      * @param array $options Currently only support one option which is skipEndTagMessage which will ignore the closing tag message
-     * @return array $csOutput an array with two keys
-     *          - hasViolations bool True if it has found a violation on the PSR2 coding standard, false otherwise
-     *          - violations array An array of violations. Each element of the array is also an array with the following elements
+     * @return array $violations an array of violation. Each violation is an array with the following elements
      *              - message string The violation message
      *              - line int|string the line number on the php file where the violation occur
      *              - column int|string the column number on the php file where the violation occur.
+     *              
      */
     public function codingStandard(array $options = array()): array
     {
@@ -50,7 +49,8 @@ class Analyzer {
         }
 
         $snifferOutput = json_decode($output[0], true);
-        $csOutput = [ 'hasViolations' => false ];
+
+        $violations = array();
 
         foreach ($snifferOutput['files'] as $file) {
             foreach ($file['messages'] as $message) {
@@ -58,30 +58,26 @@ class Analyzer {
                     && $options['skipEndTagMessage'] && $message['message'] === 'A closing tag is not permitted at the end of a PHP file') {
                         continue;
                 }
-                
-                $csOutput['hasViolations'] = true;
 
-                $csOutput['violations'][] = [
+                $violations[] = array(
                     'message'   => $message['message'],
                     'line'      => $message['line'],
                     'column'    => $message['column']
-                ];
+                );
             }
         }
 
-        return $csOutput;   
+        return $violations;   
     }
 
     /**
      * Analyze the php file for Mess Detection
      *
      * @param array $rules The rules to be used for the mess detection test.
-     * @return array $mdOutput an array with two keys
-     *          - hasViolations bool True if the mess detection test found any issue, false otherwise
-     *          - violations array An array of violations. Each element of the array is also an array with the following elements
-     *              - message string The violation message
-     *              - beginLine int|string the line number on the php file where the violation occur
-     *              - endLine int|string the column number on the php file where the violation occur.
+     * @return array $violations an array of violations. Each element of the array is also an array with the following elements
+     *          - message string The violation message
+     *          - beginLine int|string the line number on the php file where the violation occur
+     *          - endLine int|string the column number on the php file where the violation occur.
      */
     public function messDetection(array $rules = array()): array
     {
@@ -106,20 +102,18 @@ class Analyzer {
 
         $xml = simplexml_load_string(implode("", $output));
 
-        $mdOutput = [ 'hasViolations' => false ];
+        $violations = array();
 
         if ($xml->file) {
             foreach($xml->file->children() as $violation) {
-                $mdOutput['hasViolations'] = true;
-
-                $mdOutput['violations'][] = [
+                $violations[] = array(
                     'message'   => trim($violation->__toString()),
                     'beginLine' => $violation['beginline']->__toString(),
                     'endLine'   => $violation['endline']->__toString()
-                ];
+                );
             }
         }
 
-        return $mdOutput;
+        return $violations;
     }
 }

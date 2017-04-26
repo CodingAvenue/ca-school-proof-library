@@ -1,5 +1,9 @@
 # Coding Avenue PHP Proof Library
 
+## Wiki
+
+For a more detailed documentation, check our [wiki](https://github.com/CodingAvenue/ca-school-proof-library/wiki) pages.
+
 ## Installation
 
 Add the following to your `composer.json` file
@@ -57,32 +61,26 @@ print_r($output)
 ```
 Array
 (
-    [hasViolations] => 1
-    [violations] => Array
+    [0] => Array
         (
-            [0] => Array
-                (
-                    [message] => This is message 1
-                    [line] => 10
-                    [column] => 4
-                )
-
-            [1] => Array
-                (
-                    [message] => This is message 2
-                    [line] => 11
-                    [column] => 2
-                )
-
-            [2] => Array
-                (
-                    [message] => This is message 3
-                    [line] => 14
-                    [column] => 7
-                )
-
+            [message] => This is message 1
+            [line] => 10
+            [column] => 4
         )
 
+    [1] => Array
+        (
+            [message] => This is message 2
+            [line] => 11
+            [column] => 2
+        )
+
+    [2] => Array
+        (
+            [message] => This is message 3
+            [line] => 14
+            [column] => 7
+        )
 )
 ```
 
@@ -100,32 +98,26 @@ print_r($output)
 ```
 Array
 (
-    [hasViolations] => 1
-    [violations] => Array
+    [0] => Array
         (
-            [0] => Array
-                (
-                    [message] => This is message 1
-                    [beginLine] => 10
-                    [endLine] => 10
-                )
-
-            [1] => Array
-                (
-                    [message] => This is message 2
-                    [beginLine] => 11
-                    [endLine] => 11
-                )
-
-            [2] => Array
-                (
-                    [message] => This is message 3
-                    [beginLine] => 14
-                    [endLine] => 20
-                )
-
+            [message] => This is message 1
+            [beginLine] => 10
+            [endLine] => 10
         )
 
+    [1] => Array
+        (
+            [message] => This is message 2
+            [beginLine] => 11
+            [endLine] => 11
+        )
+
+    [2] => Array
+        (
+            [message] => This is message 3
+            [beginLine] => 14
+            [endLine] => 20
+        )
 )
 ```
 

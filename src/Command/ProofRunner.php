@@ -49,7 +49,7 @@ class ProofRunner extends Command
                 $answerFileFinder = new AnswerFileFinder($config->getAnswerDir(), $config->getProofDir());
                 $answerFile = $answerFileFinder->resolve($file);
 
-                $output->writeln("Using test file {$answerFilee} for this test as code input.", OutputInterface::VERBOSITY_VERBOSE);
+                $output->writeln("Using test file {$answerFile} for this test as code input.", OutputInterface::VERBOSITY_VERBOSE);
                 $output->writeln("Copying content to {$config->getCodeFilePath()}", OutputInterface::VERBOSITY_VERBOSE);
 
                 $fileHandler = fopen($config->getCodeFilePath(), 'w');
