@@ -1,8 +1,10 @@
 <?php
 
-namespace CodingAvenue\Proof\Code\NodeFinder;
+namespace CodingAvenue\Proof\Code\NodeFinder\Operator\Arithmetic;
 
-class AdditionFinder extends FinderAbstract
+use CodingAvenue\Proof\Code\NodeFinder\FinderAbstract;
+
+class PowFinder extends FinderAbstract
 {
     /** @var array of nodes to be search */
     protected $nodes;
@@ -10,11 +12,11 @@ class AdditionFinder extends FinderAbstract
     protected $callBack;
     protected $traverseChildren;
     /** @const string The class name that the node instance should match. */
-    const CLASS_ = '\PhpParser\Node\Expr\BinaryOp\Plus';
+    const CLASS_ = '\PhpParser\Node\Expr\BinaryOp\Pow';
 
     /**
-     * Constructs an AdditionFinder
-     * Finds all addition operator nodes
+     * Constructs an PowFinder
+     * Finds all pow operator nodes
      *
      * @param array $nodes the nodes to be searched.
      * @param array $filter the filter to be used.

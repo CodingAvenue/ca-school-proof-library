@@ -1,14 +1,14 @@
 <?php
 
-namespace CodingAvenue\Proof\Code\NodeFinder;
+namespace CodingAvenue\Proof\Code\NodeFinder\DataType;
 
-// I don't think we still need this class
-class EncapsedStringFinder extends FinderAbstract
+class ArrayFetchFinder extends FinderAbstract
 {
+
     protected $nodes;
     protected $callBack;
     protected $traverseChildren;
-    const CLASS_ = '\PhpParser\Node\Scalar\EncapsedStringPart';
+    const CLASS_ = '\PhpParser\Node\Expr\ArrayDimFetch';
 
     public function __construct(array $nodes, array $filter, bool $traverseChildren)
     {
@@ -20,7 +20,11 @@ class EncapsedStringFinder extends FinderAbstract
     public function makeCallback(array $filter)
     {
         $class = self::CLASS_;
-        return function($node) use ($class) {
+        return function($node) use ($class, $filter) {
+            if (isset($filter['variable'])) {
+                return $node instanceof $class && $node->var->name === $filter['variable'];
+            }
+            
             return $node instanceof $class;
         };
     }

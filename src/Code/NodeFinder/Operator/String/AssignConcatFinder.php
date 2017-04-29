@@ -1,13 +1,15 @@
 <?php
 
-namespace CodingAvenue\Proof\Code\NodeFinder;
+namespace CodingAvenue\Proof\Code\NodeFinder\Operator\String;
 
-class FunctionFinder extends FinderAbstract
+use CodingAvenue\Proof\Code\NodeFinder\FinderAbstract;
+
+class BinaryConcatFinder extends FinderAbstract
 {
     protected $nodes;
     protected $callBack;
     protected $traverseChildren;
-    const CLASS_ = '\PhpParser\Node\Stmt\Function_';
+    const CLASS_ = '\PhpParser\Node\Expr\AssignOp\Concat';
 
     public function __construct(array $nodes, array $filter, bool $traverseChildren = true)
     {
@@ -20,9 +22,9 @@ class FunctionFinder extends FinderAbstract
     {
         $class = self::CLASS_;
         
-        return function($node) use ($class, $filter) {
-            if (isset($filter['name'])) {
-                return ($node instanceof $class && $node->name === $filter['name']);
+        return function($node) use ($class) {
+            if (isset($filter['variable'])) {
+                return ($node instanceof $class && $node->var->name === $filter['variable']);
             }
 
             return $node instanceof $class;

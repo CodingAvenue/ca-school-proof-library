@@ -1,6 +1,8 @@
 <?php
 
-namespace CodingAvenue\Proof\Code\NodeFinder;
+namespace CodingAvenue\Proof\Code\NodeFinder\Construct;
+
+use CodingAvenue\Proof\Code\NodeFinder\FinderAbstract;
 
 class EchoFinder extends FinderAbstract
 {

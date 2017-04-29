@@ -1,16 +1,17 @@
 <?php
 
-namespace CodingAvenue\Proof\Code\NodeFinder;
+namespace CodingAvenue\Proof\Code\NodeFinder\Operator\String;
 
-// I don't think we still need this class
-class EncapsedStringFinder extends FinderAbstract
+use CodingAvenue\Proof\Code\NodeFinder\FinderAbstract;
+
+class BinaryConcatFinder extends FinderAbstract
 {
     protected $nodes;
     protected $callBack;
     protected $traverseChildren;
-    const CLASS_ = '\PhpParser\Node\Scalar\EncapsedStringPart';
+    const CLASS_ = '\PhpParser\Node\Expr\BinaryOp\Concat';
 
-    public function __construct(array $nodes, array $filter, bool $traverseChildren)
+    public function __construct(array $nodes, array $filter, bool $traverseChildren = true)
     {
         $this->nodes = $nodes;
         $this->traverseChildren = $traverseChildren;
@@ -20,6 +21,7 @@ class EncapsedStringFinder extends FinderAbstract
     public function makeCallback(array $filter)
     {
         $class = self::CLASS_;
+        
         return function($node) use ($class) {
             return $node instanceof $class;
         };

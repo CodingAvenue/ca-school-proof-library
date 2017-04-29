@@ -2,9 +2,14 @@
 
 namespace CodingAvenue\Proof\Code;
 
+/**
+ * This needs to be redesign. The NodeFilter class should not know anything about the Nodes class method naming scheme.
+ * It shoulnd't even know about actions, instead it should only have types, attrs, pseudo.
+ * Then the Nodes class or another class should deal with resolving the NodeFilter instance.
+ */
 class NodesFilter
 {
-    private $actions = array('function', 'variable', 'interpolation', 'encapsedstring', 'operator', 'construct', 'string');
+    private $actions = array('function', 'variable', 'interpolation', 'operator', 'construct', 'string', 'call', 'datatype', 'arrayfetch');
 
     private $action;
     private $params = array();

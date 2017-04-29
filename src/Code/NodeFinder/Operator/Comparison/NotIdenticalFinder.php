@@ -1,8 +1,10 @@
 <?php
 
-namespace CodingAvenue\Proof\Code\NodeFinder;
+namespace CodingAvenue\Proof\Code\NodeFinder\Operator\Comparison;
 
-class AssignmentFinder extends FinderAbstract
+use CodingAvenue\Proof\Code\NodeFinder\FinderAbstract;
+
+class NotIdenticalFinder extends FinderAbstract
 {
     /** @var array of nodes The nodes to be search */
     protected $nodes;
@@ -10,11 +12,11 @@ class AssignmentFinder extends FinderAbstract
     protected $callBack;
     protected $traverseChildren;
     /** @const string The class name that the node instance should match. */
-    const CLASS_ = '\PhpParser\Node\Expr\Assign';
+    const CLASS_ = '\PhpParser\Node\Expr\BinaryOp\NotIdentical';
 
     /**
-     * Construct an AssignmentFinder
-     * Finds all assignment operator nodes
+     * Construct an NotIdenticalFinder
+     * Finds all not identical comparison nodes
      *
      * @param array $nodes The nodes to be search
      * @param array $filter the filter to be used on the callback
@@ -34,10 +36,6 @@ class AssignmentFinder extends FinderAbstract
     {
         $class = self::CLASS_;
         return function($node) use ($class, $filter) {
-            if (isset($filter['variable'])) {
-                return ($node instanceof $class && $node->var->name === $filter['variable']);
-            }
-
             return $node instanceof $class;
         };
     }

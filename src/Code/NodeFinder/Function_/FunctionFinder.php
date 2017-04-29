@@ -1,25 +1,27 @@
 <?php
 
-namespace CodingAvenue\Proof\Code\NodeFinder;
+namespace CodingAvenue\Proof\Code\NodeFinder\Function_;
 
-class VariableFinder extends FinderAbstract
+use CodingAvenue\Proof\Code\NodeFinder\FinderAbstract;
+
+class FunctionFinder extends FinderAbstract
 {
     protected $nodes;
     protected $callBack;
     protected $traverseChildren;
-    
-    const CLASS_ = '\PhpParser\Node\Expr\Variable';
+    const CLASS_ = '\PhpParser\Node\Stmt\Function_';
 
-    public function __construct(array $nodes, array $filter, bool $traverseChildren)
+    public function __construct(array $nodes, array $filter, bool $traverseChildren = true)
     {
         $this->nodes = $nodes;
         $this->traverseChildren = $traverseChildren;
         $this->callBack = $this->makeCallback($filter);
     }
 
-    public function makeCallback(array $filter = [])
+    public function makeCallback(array $filter)
     {
         $class = self::CLASS_;
+        
         return function($node) use ($class, $filter) {
             if (isset($filter['name'])) {
                 return ($node instanceof $class && $node->name === $filter['name']);

@@ -10,24 +10,38 @@ class NodeFinder
     /**
      * @var array of operators - An array of php operators mapped to it's NodeFinder class.
      */
-    private static $operators = [
-        "assignment"    => __NAMESPACE__ . "\NodeFinder\AssignmentFinder",
-        "addition"      => __NAMESPACE__ . "\NodeFinder\AdditionFinder"
-    ];
+    private static $operators = array(
+        "assignment"        => __NAMESPACE__ . "\NodeFinder\Operator\AssignmentFinder",
+        "concat"            => __NAMESPACE__ . "\NodeFinder\Operator\String\BinaryConcatFinder",
+        "assign-concat"     => __NAMESPACE__ . "\NodeFinder\Operator\String\AssignConcatFinder",
+        "addition"          => __NAMESPACE__ . "\NodeFinder\Operator\Arithmetic\AdditionFinder",
+        "subtraction"       => __NAMESPACE__ . "\NodeFinder\Operator\Arithmetic\SubtractionFinder",
+        "multiplication"    => __NAMESPACE__ . "\NodeFinder\Operator\Arithmetic\MultiplicationFinder",
+        "division"          => __NAMESPACE__ . "\NodeFinder\Operator\Arithmetic\DivisionFinder",
+        "modulo"            => __NAMESPACE__ . "\NodeFinder\Operator\Arithmetic\ModuloFinder",
+        "pow"               => __NAMESPACE__ . "\NodeFinder\Operator\Arithmetic\PowFinder",
+        "equal"             => __NAMESPACE__ . "\NodeFinder\Operator\Comparison\EqualFinder",
+        "identical"         => __NAMESPACE__ . "\NodeFinder\Operator\Comparison\IdenticalFinder",
+        "not-equal"         => __NAMESPACE__ . "\NodeFinder\Operator\Comparison\NotEqualFinder",
+        "not-identical"     => __NAMESPACE__ . "\NodeFinder\Operator\Comparison\NotIdenticalFinder",
+        "greater"           => __NAMESPACE__ . "\NodeFinder\Operator\Comparison\GreaterFinder",
+        "less"              => __NAMESPACE__ . "\NodeFinder\Operator\Comparison\LessFinder",
+        "less-equal"        => __NAMESPACE__ . "\NodeFinder\Operator\Comparison\LessEqualFinder",
+        "greater-equal"     => __NAMESPACE__ . "\NodeFinder\Operator\Comparison\GreaterEqualFinder",
+        "spaceship"         => __NAMESPACE__ . "\NodeFinder\Operator\Comparison\SpaceshipFinder",
+    );
+
+    private static $dataTypes = array(
+        "string"            => __NAMESPACE__ . "\NodeFinder\DataType\StringFinder",
+        "array"             => __NAMESPACE__ . "\NodeFinder\DataType\ArrayFinder"
+    );
 
     /**
      * @var array of constructs - An array of php language constructs mapped to it's NodeFinder class.
      */
-    private static $constructs = [
-        "echo"          => __NAMESPACE__ . "\NodeFinder\EchoFinder"
-    ];
-
-    /**
-     * @var array of functions - An array of php build in functions mapped to it's NodeFinder class.
-     */
-    private $builtInFunctions = [
-
-    ];
+    private static $constructs = array(
+        "echo"          => __NAMESPACE__ . "\NodeFinder\Construct\EchoFinder"
+    );
 
     /**
      * Apply a NodeFilter instance into the array of nodes.
@@ -67,7 +81,7 @@ class NodeFinder
      */
     public function findVariable(array $nodes, $filter = array(), $traverseChildren = true): array
     {
-        $finder = new NodeFinder\VariableFinder($nodes, $filter, $traverseChildren);
+        $finder = new NodeFinder\Variable\VariableFinder($nodes, $filter, $traverseChildren);
         return $finder->find();
     }
 
@@ -82,11 +96,12 @@ class NodeFinder
      */
     public function findInterpolation(array $nodes, $filter = array(), $traverseChildren = true): array
     {
-        $finder = new NodeFinder\EncapsedFinder($nodes, $filter, $traverseChildren);
+        $finder = new NodeFinder\Variable\EncapsedFinder($nodes, $filter, $traverseChildren);
         return $finder->find();
     }
 
     /**
+     * TODO This will be remove in the future
      * Finds all String literals that was used together with a variable on a variable interpolation.
      *
      * @param array $nodes The nodes to be searched.
@@ -117,28 +132,6 @@ class NodeFinder
 
         $finder = new $operatorFinder($nodes, $filter, $traverseChildren);
         return $finder->find();
-        
-    }
-
-    /**
-     * Find all built-in function nodes filtered by a given built-in function name.
-     *
-     * @param array $nodes the nodes to be searched.
-     * @param array $filter the filter to be used on the searched.
-     * @return array of buildin function nodes.
-     */
-    public function findBuiltInFunction($nodes, $filter, $traverseChildren = true): array
-    {
-        if (!array_key_exists($filter['name'], self::$builtInFunctions)) {
-            throw new \Exception("Unknown built-in function " . $filter['name'] . ". Supported Built-in functions are [" . implode(",", array_keys(self::$builtInFunctions)) . "]");
-        }
-
-        $functionFinder = self::$builtInFunctions[$filter['name']];
-
-        unset($filter['name']);
-
-        $finder = new $functionFinder($nodes, $filter, $traverseChildren);
-        return $finder->find();
     }
 
     /**
@@ -150,7 +143,7 @@ class NodeFinder
      */
     public function findFunction($nodes, $filter, $traverseChildren = true): array
     {
-        $finder = new NodeFinder\FunctionFinder($nodes, $filter, $traverseChildren);
+        $finder = new NodeFinder\Function_\FunctionFinder($nodes, $filter, $traverseChildren);
         return $finder->find();
     }
 
@@ -175,9 +168,29 @@ class NodeFinder
         return $finder->find();
     }
 
-    public function findString($nodes, $filter, $traverseChildren = true): array
+    public function findCall($nodes, $filter, $traverseChildren = true): array
     {
-        $finder = new NodeFinder\StringFinder($nodes, $filter, $traverseChildren);
+        $finder = new NodeFinder\Function_\FuncCallFinder($nodes, $filter, $traverseChildren);
+        return $finder->find();
+    }
+
+    public function findDatatype($nodes, $filter, $traverseChildren = true): array
+    {
+        if (!array_key_exists($filter['name'], self::$dataTypes)) {
+            throw new \Exception("Unknown data type " . $filter['name'] . ". Supported Data Types are [" . implode(",", array_keys(self::$dataTypes)) . "]");
+        }
+
+        $dataTypeFinder = self::$dataTypes[$filter['name']];
+
+        unset($filter['name']);
+
+        $finder = new $dataTypeFinder($nodes, $filter, $traverseChildren);
+        return $finder->find();
+    }
+
+    public function findArrayfetch($nodes, $filter, $traverseChildren = true): array
+    {
+        $finder = new NodeFinder\DataType\ArrayFetchFinder($nodes, $filter, $traverseChildren);
         return $finder->find();
     }
 }

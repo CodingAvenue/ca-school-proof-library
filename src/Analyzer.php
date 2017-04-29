@@ -54,16 +54,13 @@ class Analyzer {
 
         foreach ($snifferOutput['files'] as $file) {
             foreach ($file['messages'] as $message) {
-                if (array_key_exists('skipEndTagMessage', $options)
-                    && $options['skipEndTagMessage'] && $message['message'] === 'A closing tag is not permitted at the end of a PHP file') {
-                        continue;
+                if (!$this->skipMessage($message, $options)) {
+                    $violations[] = array(
+                        'message'   => $message['message'],
+                        'line'      => $message['line'],
+                        'column'    => $message['column']
+                    );
                 }
-
-                $violations[] = array(
-                    'message'   => $message['message'],
-                    'line'      => $message['line'],
-                    'column'    => $message['column']
-                );
             }
         }
 
@@ -115,5 +112,19 @@ class Analyzer {
         }
 
         return $violations;
+    }
+
+    public function skipMessage($message, $options)
+    {
+        if (array_key_exists('skipEndTagMessage', $options)
+            && $options['skipEndTagMessage'] && $message['message'] === 'A closing tag is not permitted at the end of a PHP file') {
+                return true;
+        }
+
+        if ($message['message'] === 'End of line character is invalid; expected "\n" but found "\r\n"') {
+            return true;
+        }
+
+        return false;
     }
 }
