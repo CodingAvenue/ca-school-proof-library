@@ -2,6 +2,8 @@
 
 namespace CodingAvenue\Proof;
 
+use CodingAvenue\Proof\BinFinder;
+
 /**
  * Class that analyzes a php file
  * Currently has two ways to analyze the php file, PSR2 coding standard and Mess Detection
@@ -10,21 +12,26 @@ class Analyzer {
     /** array of Mess Detection rules. This are the default rules of Mess Detection. */
     CONST MD_RULES = array('cleancode', 'codesize', 'controversial', 'design', 'naming', 'unusedcode');
 
-    /** @var file string The path to the php file to be analyze. */
+    /** @var string $file The path to the php file to be analyze. */
     private $file;
+
+    /** @var BinFinder $binFinder The BinFinder instance. **/
+    private $binFinder;
 
     /**
      * Constructor
      * 
      * @param string $file The php file to be analyze
+     * @param BinFinder $binFinder the BinFinder instance
      */
-    public function __construct(string $file)
+    public function __construct(string $file, BinFinder $binFinder)
     {
         if (!file_exists($file)) {
             throw new \Exception("file $file not found.");
         }
 
         $this->file = $file;
+        $this->binFinder = $binFinder;
     }
 
     /**
@@ -39,7 +46,7 @@ class Analyzer {
      */
     public function codingStandard(array $options = array()): array
     {
-        $phpcs = VendorBin::getCS();
+        $phpcs = $this->binFinder->getCS();
         $command = sprintf("%s -q --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 --report=json --standard=PSR2 %s 2>&1", $phpcs, $this->file);
 
         exec($command, $output, $exitCode);
@@ -88,7 +95,7 @@ class Analyzer {
             $rules = self::MD_RULES;
         }
 
-        $phpmd = VendorBin::getMD();
+        $phpmd = $this->binFinder->getMD();
         $command = sprintf("%s %s xml %s --ignore-violations-on-exit --suffixes '' 2>&1", $phpmd, $this->file, implode(",", $rules));
 
         exec($command, $output, $exitCode);

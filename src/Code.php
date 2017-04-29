@@ -5,6 +5,7 @@ namespace CodingAvenue\Proof;
 use CodingAvenue\Proof\Code\Parser;
 use CodingAvenue\Proof\Code\Nodes;
 use CodingAvenue\Proof\Config;
+use CodingAvenue\Proof\BinFinder;
 
 /**
  * @author Sandae P. Macalalag <sandaemc@gmail.com>
@@ -13,6 +14,7 @@ class Code {
 
     private $raw;
     private $config;
+    private $binFinder;
 
     public function __construct()
     {
@@ -28,6 +30,7 @@ class Code {
         }
 
         $this->raw = $content;
+        $this->binFinder = new BinFinder($this->config);
     }
 
     protected function getUserCode()
@@ -39,6 +42,11 @@ class Code {
     public function getConfig()
     {
         return $this->config;
+    }
+
+    public function getBinFinder()
+    {
+        return $this->binFinder;
     }
 
     public function parse()
@@ -53,7 +61,7 @@ class Code {
 
     public function analyzer()
     {
-        return new Analyzer($this->getUserCode());
+        return new Analyzer($this->getUserCode(), $this->getBinFinder());
     }
 
     public function evaluator()

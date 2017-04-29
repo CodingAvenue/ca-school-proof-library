@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use CodingAvenue\Proof\VendorBin;
+use CodingAvenue\Proof\BinFinder;
 use CodingAvenue\Proof\Config;
 use CodingAvenue\Proof\CLI\AnswerFileFinder;
 
@@ -38,6 +38,7 @@ class ProofRunner extends Command
         $output->writeln("Loading configuration file", OutputInterface::VERBOSITY_VERBOSE);
 
         $config = new Config();
+        $binFinder = new BinFinder($config);
 
         $output->writeln("Configuration file loaded", OutputInterface::VERBOSITY_VERBOSE);
         $output->writeln("Preparing files to be executed by phpunit", OutputInterface::VERBOSITY_VERBOSE);
@@ -60,7 +61,7 @@ class ProofRunner extends Command
             }
 
             $out = array();
-            $phpUnit = VendorBin::getPHPUnit();
+            $phpUnit = $binFinder->getPHPUnit();
             $output->writeln("Running command `{$phpUnit} --verbose --tap {$file}`", OutputInterface::VERBOSITY_VERBOSE);
 
             exec("{$phpUnit} --verbose --tap {$file}", $out);
