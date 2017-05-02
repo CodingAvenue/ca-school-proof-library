@@ -20,11 +20,13 @@ class BinFinder
             $this->binPath = $this->getDefaultBinPath();
         }
         else {
-            if (file_exists(realpath($config->getBinPath()))) {
+            if (!file_exists(realpath($config->getBinPath()))) {
+                throw new \Exception("Bin path {$config->getBinPath()} does not exists. Please set the correct path.");
                 $this->binPath = realpath($config->getBinPath());
             }
+            
+            $this->binPath = realpath($config->getBinPath());
 
-            throw new \Exception("Bin path {$config->getBinPath()} does not exists. Please set the correct path.");
         }
     }
 
