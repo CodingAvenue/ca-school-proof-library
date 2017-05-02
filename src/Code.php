@@ -3,7 +3,7 @@
 namespace CodingAvenue\Proof;
 
 use CodingAvenue\Proof\Code\Parser;
-use CodingAvenue\Proof\Code\Nodes;
+use CodingAvenue\Proof\Nodes\Nodes;
 use CodingAvenue\Proof\Config;
 use CodingAvenue\Proof\BinFinder;
 
