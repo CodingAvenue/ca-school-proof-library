@@ -61,7 +61,7 @@ class Code {
 
     public function analyzer()
     {
-        return new Analyzer($this->getUserCode(), $this->getBinFinder());
+        return new Analyzer($this->getUserCode(), $this->getBinFinder(), $this->config->isSuppressCodingConventionErrors(), $this->config->isSuppressMessDetectionErrors());
     }
 
     public function evaluator()

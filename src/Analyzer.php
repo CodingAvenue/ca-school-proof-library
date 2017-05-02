@@ -3,6 +3,7 @@
 namespace CodingAvenue\Proof;
 
 use CodingAvenue\Proof\BinFinder;
+use CodingAvenue\Proof\Config;
 
 /**
  * Class that analyzes a php file
@@ -18,13 +19,17 @@ class Analyzer {
     /** @var BinFinder $binFinder The BinFinder instance. **/
     private $binFinder;
 
+    private $suppressCodingStandard;
+
+    private $suppressMessDetection;
+
     /**
      * Constructor
      * 
      * @param string $file The php file to be analyze
      * @param BinFinder $binFinder the BinFinder instance
      */
-    public function __construct(string $file, BinFinder $binFinder)
+    public function __construct(string $file, BinFinder $binFinder, bool $supressCodingConvention = false, bool $suppressMessDetection = false)
     {
         if (!file_exists($file)) {
             throw new \Exception("file $file not found.");
@@ -32,6 +37,8 @@ class Analyzer {
 
         $this->file = $file;
         $this->binFinder = $binFinder;
+        $this->suppressCodingConvention = $suppressCodingConvention;
+        $this->suppressMessDetection = $suppressMessDetection;
     }
 
     /**
@@ -46,6 +53,10 @@ class Analyzer {
      */
     public function codingStandard(array $options = array()): array
     {
+        if ($this->suppressCodingConvention) {
+            return array();
+        }
+
         $phpcs = $this->binFinder->getCS();
         $command = sprintf("%s -q --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 --report=json --standard=PSR2 %s 2>&1", $phpcs, $this->file);
 
@@ -85,6 +96,10 @@ class Analyzer {
      */
     public function messDetection(array $rules = array()): array
     {
+        if ($this->suppressMessDetection) {
+            return array();
+        }
+
         foreach ($rules as $rule) {
             if(!in_array($rule, self::MD_RULES)) {
                 throw new \Exception("Unknown rule $rule, Available rules are [" . implode(", ", self::MD_RULES) . "]");

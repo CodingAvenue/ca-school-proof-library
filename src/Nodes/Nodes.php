@@ -50,7 +50,7 @@ class Nodes
         return count($this->nodes);
     }
 
-    public function getSubnode()
+    public function getSubnode(): self
     {
         $newNodes = [];
         foreach ($this->getNodes() as $node) {

@@ -22,13 +22,18 @@ class Config
     /** @var defaultConfiguration bool If this config is using the default configuration or not. */
     private $defaultConfiguration;
 
+    /** @var isSandboxMode bool Checks the environment variable PROOF_LIBRARY_MODE if it's equal to local, true if it's NOT, false otherwise. */
+    private $sandboxMode;
+
     /** @var defaultSettings - The default configuration settings. This settings not set on the proof.json file will use the default value. */
     private $defaultSettings = array(
         "codeFilePath" => "/code",
         "verbose" => false,
-        "answerDir" => "answers",
-        "proofDir" => "tests",
-        "binPath" => "vendor/bin"
+        "answerDir" => "",
+        "proofDir" => "",
+        "binPath" => "vendor/bin",
+        "suppressCodingConventionErrors" => false,
+        "suppressMessDetectionErrors" => false
     );
 
     /**
@@ -41,8 +46,8 @@ class Config
      */
     public function __construct()
     {
-        //Check if we're inside the sandbox. Use default configuration if we are, ignoring the `proof.json` config.
-        $configFile = getenv("PROOF_LIBRARY_MODE") === 'local' ? realpath("proof.json") : null;
+        $configFile = realpath('proof.json') ?: null;
+        $this->sandboxMode = getenv("PROOF_LIBRARY_MODE") === 'local' ? false : true;
 
         if ($configFile && file_exists($configFile)) {
             $config = json_decode(file_get_contents($configFile), true);
@@ -66,11 +71,13 @@ class Config
      */
     public function loadConfiguration($config)
     {
-        $this->codeFilePath = $config['codeFilePath'];
+        $this->codeFilePath = $this->sandboxMode ? $this->defaultSettings['codeFilePath'] : $config['codeFilePath'];
         $this->verbose = $config['verbose'];
-        $this->answerDir = $config['answerDir'];
-        $this->proofDir = $config['proofDir'];
+        $this->answerDir = $this->sandboxMode ? $this->defaultSettings['answerDir'] : $config['answerDir'];
+        $this->proofDir = $this->sandboxMode ? $this->defaultSettings['testDir'] : $config['proofDir'];
         $this->binPath = $config['binPath'];
+        $this->suppressCodingConventionErrors = $config['suppressCodingConventionErrors'];
+        $this->suppressMessDetectionErrors = $config['suppressMessDetectionErrors'];
     }
 
     /**
@@ -126,5 +133,20 @@ class Config
     public function getBinPath()
     {
         return $this->binPath;
+    }
+
+    public function isSandboxMode()
+    {
+        return $this->sandboxMode;
+    }
+
+    public function isSuppressMessDetectionErrors()
+    {
+        return $this->suppressMessDetectionErrors;
+    }
+
+    public function isSuppressCodingConventionErrors()
+    {
+        return $this->suppressCodingConventionErrors;
     }
 }

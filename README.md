@@ -17,7 +17,7 @@ Add the following to your `composer.json` file
         }
     ],
     "require": {
-        "codingavenue/php-proof": "0.0.6"
+        "codingavenue/php-proof": "~0.1"
     }
 }
 ```
