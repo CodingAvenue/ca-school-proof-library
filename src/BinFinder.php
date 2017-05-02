@@ -20,7 +20,7 @@ class BinFinder
             $this->binPath = $this->getDefaultBinPath();
         }
         else {
-            if (file_exists($config->getBinPath())) {
+            if (file_exists(realpath($config->getBinPath()))) {
                 $this->binPath = realpath($config->getBinPath());
             }
 
@@ -51,7 +51,7 @@ class BinFinder
      */
     public function getBin(string $bin)
     {
-        $binary = implode(DIRECTORY_SEPARATOR, array($this->biPath, $bin));
+        $binary = implode(DIRECTORY_SEPARATOR, array($this->binPath, $bin));
         if (file_exists($binary)) {
             return $binary;
         }

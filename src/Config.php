@@ -27,7 +27,8 @@ class Config
         "codeFilePath" => "/code",
         "verbose" => false,
         "answerDir" => "answers",
-        "proofDir" => "tests"
+        "proofDir" => "tests",
+        "binPath" => "vendor/bin"
     );
 
     /**
@@ -69,6 +70,7 @@ class Config
         $this->verbose = $config['verbose'];
         $this->answerDir = $config['answerDir'];
         $this->proofDir = $config['proofDir'];
+        $this->binPath = $config['binPath'];
     }
 
     /**
@@ -119,5 +121,10 @@ class Config
     public function isDefaultConfiguration()
     {
         return $this->defaultConfiguration;
+    }
+
+    public function getBinPath()
+    {
+        return $this->binPath;
     }
 }

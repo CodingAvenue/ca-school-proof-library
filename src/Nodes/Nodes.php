@@ -18,7 +18,7 @@ class Nodes
     public function find(string $selector, bool $traverse = true): self
     {
         $parsed = $this->parseSelector($selector);
-        $filter = FilterFactory::createFilter($parsed['node'], $parsed['attribute'], $traverse);
+        $filter = FilterFactory::createFilter($parsed['node'], isset($parsed['attribute']) ? $parsed['attribute'] : array(), $traverse);
         $filteredNodes = $filter->applyFilter($this->nodes);
 
         return new self($filteredNodes);
@@ -35,7 +35,7 @@ class Nodes
 
     public function text(): string
     {
-        $nodes = $this->find('string');
+        $nodes = $this->find('datatype[name="string"]');
         $text = '';
 
         foreach ($nodes->getNodes() as $node) {
@@ -78,5 +78,10 @@ class Nodes
 
         $transformer = new ArrayTransformer($stream);
         return $transformer->transform();
+    }
+
+    public function getNodes()
+    {
+        return $this->nodes;
     }
 }
