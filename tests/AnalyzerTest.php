@@ -2,6 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 use CodingAvenue\Proof\Analyzer;
+use CodingAvenue\Proof\Config;
+use CodingAvenue\Proof\BinFinder;
 
 class AnalyzerTest extends TestCase
 {
@@ -19,7 +21,11 @@ echo "Hi \$name\n";
 PHPCODE;
         fwrite(fopen('./code', 'w'), $content);
 
-        self::$analyzer = new Analyzer('./code');
+        putenv("PROOF_LIBRARY_MODE=local");
+
+        $config = new Config();
+
+        self::$analyzer = new Analyzer('./code', new BinFinder($config));
     }
 
     public function testInstance()

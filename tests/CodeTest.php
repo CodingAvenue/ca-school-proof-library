@@ -5,7 +5,7 @@ use CodingAvenue\Proof\Code;
 use CodingAvenue\Proof\Config;
 use CodingAvenue\Proof\Analyzer;
 use CodingAvenue\Proof\Evaluator;
-use CodingAvenue\Proof\Code\Nodes;
+use CodingAvenue\Proof\Nodes\Nodes;
 
 class CodeTest extends TestCase
 {

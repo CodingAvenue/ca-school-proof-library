@@ -37,22 +37,23 @@ class ArrayTransformer implements TransformerInterface
         while (!$this->stream->isEnd()) {
             $startToken = $this->stream->getCurrentToken();
 
-            /**
-             * We need a way to stop transforming if it finds cascading selector which we don't support as of the moment.
-             * This way we inform the users that this isn't supported right now
-             * This is not an elegant solution right now, we need a better detection. Or better yet SUPPORT IT!
-             */
-            if (count(array_keys($transformed)) >= 2) {
-                throw new \Exception("Detecting cascading selector, we don't support cascading selector as of this time");
-            }
-
             foreach ($this->rules as $rule) {
                 if ($rule->startToken($startToken)) {
+                    /**
+                     * We need a way to stop transforming if it finds cascading selector which we don't support as of the moment.
+                     * This way we inform the users that this isn't supported right now
+                     * This is not an elegant solution right now, we need a better detection. Or better yet SUPPORT IT!
+                     */
+                    if (isset($transformed[$rule->getRuleType()])) {
+                        throw new \Exception("Detecting multiple selector, we don't support multiple selector as of this time.");
+                    }
+
                     $transformed[$rule->getRuleType()] = $rule->handle($this->stream);
                     continue 2;
-                }
-                
+                }                
             }
+            
+            throw new \Exception("No rules can handle this token {$startToken->getValue()}");
         }
 
         return $transformed;

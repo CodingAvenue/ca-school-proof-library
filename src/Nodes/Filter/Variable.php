@@ -9,18 +9,11 @@ class Variable extends Filter implements FilterInterface
 {
     public function getRuleClass()
     {
-        return RuleFactory::createRule('variable', $this->getNameSpaceparts(), $this->getRuleFilters(), $this->traverse);   
+        return RuleFactory::createRule('variable', $this->getRuleFilters(), $this->traverse);   
     }
 
     public function getRuleFilters()
     {
         return $this->attributes;
-    }
-
-    public function getNameSpaceParts(): array
-    {
-        return array(
-            "Variable"
-        );
     }
 }

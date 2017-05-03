@@ -74,7 +74,7 @@ class Config
         $this->codeFilePath = $this->sandboxMode ? $this->defaultSettings['codeFilePath'] : $config['codeFilePath'];
         $this->verbose = $config['verbose'];
         $this->answerDir = $this->sandboxMode ? $this->defaultSettings['answerDir'] : $config['answerDir'];
-        $this->proofDir = $this->sandboxMode ? $this->defaultSettings['testDir'] : $config['proofDir'];
+        $this->proofDir = $this->sandboxMode ? $this->defaultSettings['proofDir'] : $config['proofDir'];
         $this->binPath = $config['binPath'];
         $this->suppressCodingConventionErrors = $config['suppressCodingConventionErrors'];
         $this->suppressMessDetectionErrors = $config['suppressMessDetectionErrors'];

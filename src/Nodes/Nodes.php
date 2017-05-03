@@ -49,11 +49,13 @@ class Nodes
      */
     public function children(string $selector = null): self
     {
+        $subnodes = $this->getSubnode();
+
         if (is_null($selector)) {
-            return $this->getSubnode();
+            return $subnodes;
         }
 
-        return $this->find($selector, false);
+        return $subnodes->find($selector, false);
     }
 
     /**

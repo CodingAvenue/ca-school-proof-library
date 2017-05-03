@@ -9,7 +9,7 @@ class Datatype extends Filter implements FilterInterface
 {
     public function getRuleClass()
     {
-        return RuleFactory::createRule($this->attributes['name'], $this->getNameSpaceparts(), $this->getRuleFilters(), $this->traverse);   
+        return RuleFactory::createRule($this->attributes['name'], $this->getRuleFilters(), $this->traverse);   
     }
 
     public function getRuleFilters()
@@ -18,12 +18,5 @@ class Datatype extends Filter implements FilterInterface
 
         unset($attributes['name']);
         return $attributes;
-    }
-
-    public function getNameSpaceParts(): array
-    {
-        return array(
-            "DataType"
-        );
     }
 }

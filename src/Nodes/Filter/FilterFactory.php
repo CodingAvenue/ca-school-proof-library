@@ -6,11 +6,24 @@ class FilterFactory
 {
     public static function createFilter(string $name, array $attributes, bool $traverse)
     {
-        $class = __NAMESPACE__ . "\\" . ucfirst($name);
-        if (!class_exists($class)) {
-            throw new \Exception("Unknown Filter class {$name}");
+        $filters = self::getFilters();
+
+        $filter = isset($filters[$name]) ? $filters[$name] : null;
+        if (is_null($filter)) {
+            throw new \Exception("No Filter class found to handle {$name}");
         }
 
-        return new $class($name, $attributes, $traverse);
+        return new $filter($name, $attributes, $traverse);
+    }
+
+    public static function getFilters()
+    {
+        return array(
+            'operator'      => "\CodingAvenue\Proof\Nodes\Filter\Operator",
+            'variable'      => "\CodingAvenue\Proof\Nodes\Filter\Variable",
+            'interpolation' => "\CodingAvenue\Proof\Nodes\Filter\Interpolation",
+            'datatype'      => "\CodingAvenue\Proof\Nodes\Filter\Datatype",
+            'construct'     => "\CodingAvenue\Proof\Nodes\Filter\Construct"
+        );
     }
 }

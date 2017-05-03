@@ -17,6 +17,7 @@ class TokenStream
         $this->tokens[] = new Token($type, $value);
     }
 
+    // I don't think this method name is accurate, it's returning the current token and MOVE the cursor pointer
     public function getNextToken()
     {
         if ($this->hasTokens() && $this->cursor < $this->getLength()) {
@@ -28,7 +29,7 @@ class TokenStream
 
     public function peekNextToken()
     {
-        if ($this->hasTokens() && $this->cursor < $this->getLength()) {
+        if ($this->hasTokens() && $this->cursor + 1 < $this->getLength()) {
             return $this->tokens[$this->cursor + 1];
         }
 

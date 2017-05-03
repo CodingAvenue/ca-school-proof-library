@@ -67,11 +67,16 @@ class SourceReader
 
     public function getPosition()
     {
-        return $this->postion;
+        return $this->position;
     }
 
     public function getLength()
     {
         return $this->length;
+    }
+
+    public function getSource()
+    {
+        return $this->source;
     }
 }
