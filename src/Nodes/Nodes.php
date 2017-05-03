@@ -6,15 +6,32 @@ use CodingAvenue\Proof\SelectorParser\Parser;
 use CodingAvenue\Proof\SelectorParser\Transformer\ArrayTransformer;
 use CodingAvenue\Proof\Nodes\Filter\FilterFactory;
 
+/**
+ * Nodes Class - Takes the result from the PHP Parser and allows users to traverse and find specific node or nodes
+ * through a selector.
+ */
 class Nodes
 {
-    private $nodes = array();
+    /** @var array $nodes Array of nodes from the result of the PHP Parser */
+    private $nodes;
 
+    /**
+     * Constructor
+     * 
+     * @param array $nodes the array of node which usually comes from the result of the PHP Parser
+     */
     public function __construct(array $nodes)
     {
         $this->nodes = $nodes;
     }
 
+    /**
+     * find() - Takes a selector string and use it to filter the nodes
+     *
+     * @param string $selector the selector string which will be used to filter the nodes.
+     * @param bool $traverse True if we want to traverse to inner nodes for searching, false otherwise. Default to true
+     * @return a new instance of the Nodes class with the filtered nodes.
+     */
     public function find(string $selector, bool $traverse = true): self
     {
         $parsed = $this->parseSelector($selector);
@@ -24,6 +41,12 @@ class Nodes
         return new self($filteredNodes);
     }
 
+    /**
+     * children() - returns it's immediate children nodes only, can be filtered by supplying an optional selector string
+     *
+     * @param string $selector an optional selector string to be used to filter the nodes on it's immediate children only.
+     * @return a new instance of the Nodes class with the filtered nodes.
+     */
     public function children(string $selector = null): self
     {
         if (is_null($selector)) {
@@ -33,6 +56,9 @@ class Nodes
         return $this->find($selector, false);
     }
 
+    /**
+     * text() - Returns the string literal of any nodes 
+     */ 
     public function text(): string
     {
         $nodes = $this->find('datatype[name="string"]');
