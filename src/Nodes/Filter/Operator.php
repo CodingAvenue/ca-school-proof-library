@@ -23,10 +23,10 @@ class Operator extends Filter implements FilterInterface
     public function getNameSpaceParts(): array
     {
         return array(
-            "Operators\Arithmetic",
-            "Operators\Comparison",
-            "Operators\String",
-            "Operators"
+            "Operator\Arithmetic",
+            "Operator\Comparison",
+            "Operator\String",
+            "Operator"
         );
     }
 }

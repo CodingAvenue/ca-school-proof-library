@@ -19,7 +19,7 @@ class Analyzer {
     /** @var BinFinder $binFinder The BinFinder instance. **/
     private $binFinder;
 
-    private $suppressCodingStandard;
+    private $suppressCodingConvention;
 
     private $suppressMessDetection;
 
@@ -29,7 +29,7 @@ class Analyzer {
      * @param string $file The php file to be analyze
      * @param BinFinder $binFinder the BinFinder instance
      */
-    public function __construct(string $file, BinFinder $binFinder, bool $supressCodingConvention = false, bool $suppressMessDetection = false)
+    public function __construct(string $file, BinFinder $binFinder, bool $suppressCodingConvention = false, bool $suppressMessDetection = false)
     {
         if (!file_exists($file)) {
             throw new \Exception("file $file not found.");
