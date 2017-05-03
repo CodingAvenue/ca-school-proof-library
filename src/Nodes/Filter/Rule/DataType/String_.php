@@ -21,11 +21,12 @@ class String_ extends Rule implements RuleInterface
         $filter = $this->filter;
 
         $kind = $this->getKindType($filter);
+        
         return function($node) use ($class, $filter, $kind) {
             return (
                 $node instanceof $class
                 && (isset($filter['value']) ? $node->value === $filter['value'] : true)
-                && (!is_null($kind) ? $node->getAttribute('kind') === $kind : true)
+                && (!is_null($kind) ? $node->getAttribute('kind') == $kind : true)
             );
         };
     }
@@ -33,7 +34,7 @@ class String_ extends Rule implements RuleInterface
     public function getKindType()
     {
         if(isset($this->filter['type'])) {
-            if (array_key_exists($this->filter['type'])) {
+            if (array_key_exists($this->filter['type'], $this->types)) {
                 return $this->types[$this->filter['type']];
             }
 

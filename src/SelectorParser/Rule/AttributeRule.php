@@ -47,11 +47,6 @@ class AttributeRule implements RuleInterface
                 break;
             }
 
-            if ($token->getType() === 'whitespace') {
-                // Skip whitespace characters inside the attribute strings.
-                $token = $stream->getNextToken();
-                continue;
-            }
             $attributeValue .= $token->getValue();            
             $token = $stream->getNextToken();
         }
@@ -63,7 +58,7 @@ class AttributeRule implements RuleInterface
 
         $token = $stream->getNextToken(); // Move the stream cursor one more time since we don't want the next rule to check the closing bracket
 
-        $attrs = explode(",", $attributeValue);
+        $attrs = preg_split("/,\s*/", $attributeValue);
         foreach ($attrs as $attr) {
             list($key, $value) = explode("=", $attr);
 
