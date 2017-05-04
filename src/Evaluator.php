@@ -2,19 +2,26 @@
 
 namespace CodingAvenue\Proof;
 
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+
 class Evaluator
 {
-    /* @var string a string of code to be evaluated */
-    private $code;
+    /* @var string $file the php file to be evaluated */
+    private $file;
+
+    /** @var BinFinder $binFinder the BinFinder instance */
+    private $binFinder;
 
     /**
-     * Evaluator class - evaluates a string of php code.
+     * Evaluator class - evaluates a php file into an isolated process.
      * Returns the result of the evaluated code and (if any) the output of the code
      * throws an error if the code has a parsing error.
      */
-    public function __construct(string $code)
+    public function __construct(string $file, string $binFinder)
     {
-        $this->code = $code;
+        $this->file = $file;
+        $this->binFinder = $binFinder;
     }
 
     /**
@@ -26,35 +33,29 @@ class Evaluator
      */
     public function evaluate($code = null): array
     {
+        $process = new Process($this->prepareCommand($code));
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process); 
+        }
+
+        return json_decode($process->getOutput(), true);
+
         $input = $this->prepareCode();
+    }
+
+    public function prepareCommand($code = null)
+    {
+        $command = array();
+        $command[] = $this->binFinder;
 
         if (!is_null($code)) {
-            $input .= $code;
+            $command[] = "--additional-code $code";
         }
 
-        return $this->doEval($input);
-    }
+        $command[] = $this->file;
 
-    public function doEval(string $code)
-    {
-        ob_start();
-        try {
-            $result = eval($code);
-            $output = ob_get_clean();
-
-            return array('result' => $result, 'output' => trim($output));
-        }
-        catch(\Error $e) {
-            $output = ob_get_clean();
-            return array('error' => $e->getMessage() . ' at line ' . $e->getLine(), 'output' => trim($output));
-        }
-    }
-
-    public function prepareCode(): string
-    {
-        $input = preg_replace("/^\<\?php/", '', $this->code);
-        $input = preg_replace("/\?\>$/", '', $input);
-
-        return $input;
+        return implode(" ", $command);
     }
 }

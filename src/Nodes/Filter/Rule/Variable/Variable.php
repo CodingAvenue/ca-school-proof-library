@@ -22,4 +22,9 @@ class Variable extends Rule implements RuleInterface
             return $node instanceof $class;
         };
     }
+
+    public function allowedOptionalFilter()
+    {
+        return array('name');
+    }
 }

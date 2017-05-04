@@ -57,6 +57,10 @@ class BinFinder
         if (file_exists($binary)) {
             return $binary;
         }
+        elseif (file_exists(implode(DIRECTORY_SEPARATOR, array(__DIR__, "bin", $bin)))) {
+            // We're not part of a composer installation and we need to call OUR binaries. Should only be used by eval-runner for now
+            return implode(DIRECTORY_SEPARATOR, array(__DIR__, "bin", $bin));
+        }
 
         throw new \Exception("Unknown binary {$bin}.");
     }
@@ -83,5 +87,13 @@ class BinFinder
     public function getPHPUnit()
     {
         return $this->getBin("phpunit");
+    }
+
+    /**
+     * Returns the EvalRunner binary
+     */
+    public function getEvalRunner()
+    {
+        return $this->getBin("eval-runner");
     }
 }

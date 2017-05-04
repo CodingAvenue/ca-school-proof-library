@@ -2,8 +2,24 @@
 
 namespace CodingAvenue\Proof\Nodes\Filter\Rule;
 
+/**
+ * Factory class for all Rule class.
+ * Maps a rule name to it's Rule class
+ * Returns the instance of that Rule class.
+ * throws an Exception if no rule is found
+ */
 class RuleFactory
 {
+    /**
+     * Main Factory class method, given the name returns the instance of the Rule that correspond to the name.
+     *
+     * @param string $name the name of the rule
+     * @param array $filters the filters to be passed to the Rule constructor
+     * @param bool $traverse if this rule will be applied to it's children only or not
+     *
+     * @return the instance of the Rule found
+     * @throws Exception if no Rule class is found.
+     */
     public static function createRule(string $name, array $filters, bool $traverse)
     {
         $rules = self::getRules();
@@ -45,7 +61,8 @@ class RuleFactory
             'string'        => "\CodingAvenue\Proof\Nodes\Filter\Rule\DataType\String_",
             'arrayfetch'    => "\CodingAvenue\Proof\Nodes\Filter\Rule\DataType\Arrayfetch",
             'array'         => "\CodingAvenue\Proof\Nodes\Filter\Rule\DataType\Array_",
-            'echo'          => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\Echo_"
+            'echo'          => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\Echo_",
+            'return'        => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\Return_"
         );
     }
 }

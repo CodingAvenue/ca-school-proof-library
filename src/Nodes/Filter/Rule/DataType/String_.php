@@ -43,4 +43,9 @@ class String_ extends Rule implements RuleInterface
 
         return null;
     }
+
+    public function allowedOptionalFilter()
+    {
+        return array('value', 'type');
+    }
 }

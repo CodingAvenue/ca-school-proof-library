@@ -22,6 +22,13 @@ use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Comparison\Spaceship;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\String\AssignConcat;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\String\Concat;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Assignment;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Function_\Call;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Function_\Function_;
+use CodingAvenue\Proof\Nodes\Filter\Rule\DataType\String_;
+use CodingAvenue\Proof\Nodes\Filter\Rule\DataType\Array_;
+use CodingAvenue\Proof\Nodes\Filter\Rule\DataType\Arrayfetch;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Construct\Echo_;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Construct\Return_;
 
 class RuleFactoryTest extends TestCase
 {
@@ -163,5 +170,54 @@ class RuleFactoryTest extends TestCase
         $rule = RuleFactory::createRule('assignment', array(), true);
 
         $this->assertInstanceOf(Assignment::class, $rule, "RuleFactory can return an instance of the Assignment class");
+    }
+
+    public function testFunctionDefinition()
+    {
+        $rule = RuleFactory::createRule('function', array('name' => 'foo'), true);
+
+        $this->assertInstanceOf(Function_::class, $rule, "RuleFactory can return an instance of the Function_ class");
+    }
+
+    public function testFunctionCall()
+    {
+        $rule = RuleFactory::createRule('call', array('name' => 'foo'), true);
+
+        $this->assertInstanceOf(Call::class, $rule, "RuleFactory can return an instance of the Call class");
+    }
+
+    public function testString()
+    {
+        $rule = RuleFactory::createRule('string', array(), true);
+
+        $this->assertInstanceOf(String_::class, $rule, "RuleFactory can return an instance of the String_ class");
+    }
+
+    public function testArray()
+    {
+        $rule = RuleFactory::createRule('array', array(), true);
+
+        $this->assertInstanceOf(Array_::class, $rule, "RuleFactory can return an instance of the Array_ class");
+    }
+
+    public function testArrayFetch()
+    {
+        $rule = RuleFactory::createRule('arrayfetch', array(), true);
+
+        $this->assertInstanceOf(Arrayfetch::class, $rule, "RuleFactory can return an instance of the Arrayfetch class");
+    }
+
+    public function testEcho()
+    {
+        $rule = RuleFactory::createRule('echo', array(), true);
+
+        $this->assertInstanceOf(Echo_::class, $rule, "RuleFactory can return an instance of the Echo_ class");
+    }
+
+    public function testReturn()
+    {
+        $rule = RuleFactory::createRule('return', array(), true);
+
+        $this->assertInstanceOf(Return_::class, $rule, "RuleFactory can return an instance of the Return_ class");
     }
 }

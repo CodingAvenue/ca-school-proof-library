@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+
+if (file_exists(__DIR__. '/../../../../autoload.php')) {
+    //proof-library is part of a composer installation.
+    require_once(__DIR__. '/../../../../autoload.php');
+}
+else {
+    // For dev testing.
+    require_once(__DIR__. '/../../vendor/autoload.php');
+}
+
+use CodingAvenue\Proof\Command\EvalRunner;
+use Symfony\Component\Console\Application;
+
+$application = new Application();
+$application->add(new EvalRunner());
+$application->setDefaultCommand('codingavenue:eval-runner', true);
+$application->run();

@@ -1,13 +1,13 @@
 <?php
 
-namespace CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic;
+namespace CodingAvenue\Proof\Nodes\Filter\Rule\Construct;
 
 use CodingAvenue\Proof\Nodes\Filter\Rule\Rule;
 use CodingAvenue\Proof\Nodes\Filter\Rule\RuleInterface;
 
-class Pow extends Rule implements RuleInterface
+class Return_ extends Rule implements RuleInterface
 {
-    const CLASS_ = '\PhpParser\Node\Expr\BinaryOp\Pow';
+    const CLASS_ = '\PhpParser\Node\Stmt\Return_';
 
     public function getRule(): callable
     {

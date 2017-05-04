@@ -66,7 +66,7 @@ class Code {
 
     public function evaluator()
     {
-        return new Evaluator($this->raw);
+        return new Evaluator($this->getUserCode(), $this->getBinFinder()->getEvalRunner());
     }
 
     public function getNodes()
