@@ -40,7 +40,8 @@ class FilterFactory
             'interpolation' => "\CodingAvenue\Proof\Nodes\Filter\Interpolation",
             'datatype'      => "\CodingAvenue\Proof\Nodes\Filter\Datatype",
             'construct'     => "\CodingAvenue\Proof\Nodes\Filter\Construct",
-            'function'      => "\CodingAvenue\Proof\Nodes\Filter\FUnction_"
+            'function'      => "\CodingAvenue\Proof\Nodes\Filter\Function_",
+            'call'          => "\CodingAvenue\Proof\Nodes\Filter\Call"
         );
     }
 }

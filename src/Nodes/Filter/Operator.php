@@ -5,6 +5,10 @@ namespace CodingAvenue\Proof\Nodes\Filter;
 use CodingAvenue\Proof\Nodes\Filter\Rule\RuleInterface;
 use CodingAvenue\Proof\Nodes\Filter\Rule\RuleFactory;
 
+/**
+ * Operator Filter class
+ * Handles php operators filters
+ */
 class Operator extends Filter implements FilterInterface
 {
     public function getRuleClass()

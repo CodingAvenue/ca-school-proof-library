@@ -73,11 +73,18 @@ class Nodes
         return $text;
     }
 
+    /**
+     * Returns the number of nodes in this instance. Note that this only counts the top parent counts
+     * meaning, if a node has a subnode, those will not be included on the count.
+     */
     public function count()
     {
         return count($this->nodes);
     }
 
+    /**
+     * getSubnode() - Returns a new instance of the Nodes class with it's immediate subnodes 
+     */
     public function getSubnode(): self
     {
         $newNodes = [];
@@ -99,6 +106,9 @@ class Nodes
         return new self($newNodes);
     }
 
+    /**
+     * parseSelector() - Parses the selector string and returns an array of the parsed string
+     */
     public function parseSelector(string $selector)
     {
         $parser = new Parser($selector);

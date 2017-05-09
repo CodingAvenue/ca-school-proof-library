@@ -26,12 +26,11 @@ class BinFinder
             }
             
             $this->binPath = realpath($config->getBinPath());
-
         }
     }
 
     /**
-     * Returns the composer default path for bin directory 
+     * Returns the default path for bin directory 
      */
     public function getDefaultBinPath()
     {

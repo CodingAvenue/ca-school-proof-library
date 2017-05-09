@@ -19,8 +19,10 @@ class Analyzer {
     /** @var BinFinder $binFinder The BinFinder instance. **/
     private $binFinder;
 
+    /** @var bool $suppressCodingConvention True if the analyzer should suppress Coding Convention results, false otherwise */
     private $suppressCodingConvention;
 
+    /** @var bool $suppressMessDetection True if the analyzer should suppress Mess Detection results, false otherwise */
     private $suppressMessDetection;
 
     /**
@@ -28,6 +30,8 @@ class Analyzer {
      * 
      * @param string $file The php file to be analyze
      * @param BinFinder $binFinder the BinFinder instance
+     * @param bool $suppressCodingConvention if this analyzer instance should suppress Coding Convention results
+     * @param bool $suppressMessDetection if this analyzer instance should suppress Mess Detection results
      */
     public function __construct(string $file, BinFinder $binFinder, bool $suppressCodingConvention = false, bool $suppressMessDetection = false)
     {

@@ -7,6 +7,8 @@ use CodingAvenue\Proof\Nodes\Filter\Variable;
 use CodingAvenue\Proof\Nodes\Filter\Interpolation;
 use CodingAvenue\Proof\Nodes\Filter\Construct;
 use CodingAvenue\Proof\Nodes\Filter\Datatype;
+use CodingAvenue\Proof\Nodes\Filter\Function_;
+use CodingAvenue\Proof\Nodes\Filter\Call;
 
 class FilterFactoryTest extends TestCase
 {
@@ -43,6 +45,20 @@ class FilterFactoryTest extends TestCase
         $data = FilterFactory::createFilter('datatype', array('name' => 'string'), true);
 
         $this->assertInstanceOf(Datatype::class, $data, "FilterFactory can return an instance of the Datatype class");
+    }
+
+    public function testFunctionInstance()
+    {
+        $data = FilterFactory::createFilter('function', array('name' => 'functionName'), true);
+
+        $this->assertInstanceOf(Function_::class, $data, "FilterFactory can return an instance of the Function_ class");
+    }
+
+    public function testCallInstance()
+    {
+        $data = FilterFactory::createFilter('call', array('name' => 'functionName'), true);
+
+        $this->assertInstanceOf(Call::class, $data, "FilterFactory can return an instance of the Call class");
     }
 
     public function testException()

@@ -21,6 +21,12 @@ use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Comparison\NotIdentical;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Comparison\Spaceship;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\String\AssignConcat;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\String\Concat;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Bitwise\BitwiseAnd;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Bitwise\BitwiseOr;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Bitwise\BitwiseXor;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Bitwise\BitwiseNot;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Bitwise\ShiftLeft;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Bitwise\ShiftRight;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Assignment;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Function_\Call;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Function_\Function_;
@@ -219,5 +225,47 @@ class RuleFactoryTest extends TestCase
         $rule = RuleFactory::createRule('return', array(), true);
 
         $this->assertInstanceOf(Return_::class, $rule, "RuleFactory can return an instance of the Return_ class");
+    }
+
+    public function testBitwiseAnd()
+    {
+        $rule = RuleFactory::createRule('bitwise-and', array(), true);
+
+        $this->assertInstanceOf(BitwiseAnd::class, $rule, "RuleFactory can return an instance of the BitwiseAnd class");
+    }
+
+    public function testBitwiseOr()
+    {
+        $rule = RuleFactory::createRule('bitwise-or', array(), true);
+
+        $this->assertInstanceOf(BitwiseOr::class, $rule, "RuleFactory can return an instance of the BitwiseOr class");
+    }
+
+    public function testBitwiseXor()
+    {
+        $rule = RuleFactory::createRule('bitwise-xor', array(), true);
+
+        $this->assertInstanceOf(BitwiseXor::class, $rule, "RuleFactory can return an instance of the BitwiseXor class");
+    }
+
+    public function testBitwiseNot()
+    {
+        $rule = RuleFactory::createRule('bitwise-not', array(), true);
+
+        $this->assertInstanceOf(BitwiseNot::class, $rule, "RuleFactory can return an instance of the BitwiseNot class");
+    }
+
+    public function testShiftLeft()
+    {
+        $rule = RuleFactory::createRule('shiftleft', array(), true);
+
+        $this->assertInstanceOf(ShiftLeft::class, $rule, "RuleFactory can return an instance of the ShiftLeft class");
+    }
+
+    public function testShiftRight()
+    {
+        $rule = RuleFactory::createRule('shiftright', array(), true);
+
+        $this->assertInstanceOf(ShiftRight::class, $rule, "RuleFactory can return an instance of the ShiftRight class");
     }
 }

@@ -30,6 +30,7 @@ abstract class Filter implements FilterInterface
      *
      * @param array $nodes the nodes to be filtered
      * @return array $nodes the filtered nodes
+     * @throws Exception if no Rule class can be used by this Filter class.
      */
     public function applyFilter(array $nodes): array
     {
