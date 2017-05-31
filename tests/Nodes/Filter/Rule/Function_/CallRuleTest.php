@@ -19,17 +19,20 @@ class CallRuleTest extends TestCase
         $this->assertInternalType('callable', $Call->getRule(), "GetRule returns a callback");
     }
 
-/**
     public function testCallback()
     {
-        $name = new \PhpParser\Node\Name()       
-        $CallNode = new \PhpParser\Node\Expr\FuncCall($left, $right, array('startLine' => 1, 'endLine' => 1));
+        $name = new \PhpParser\Node\Name('addMe', array('startLine' => 1, 'endLine' => 1));       
+        $CallNode = new \PhpParser\Node\Expr\FuncCall($name, array(), array('startLine' => 1, 'endLine' => 1));
 
         $Call = new Call(array(), true);
         $rule = $Call->getRule();
         $this->assertEquals(true, $rule($CallNode), "The callback returns true");
+
+        $Call = new Call(array('name' => 'addMe'), true);
+        $rule = $Call->getRule();
+        $this->assertEquals(true, $rule($CallNode), "The callback returns true");
     }
-*/
+
     public function testException()
     {
         $this->expectException(Exception::class);

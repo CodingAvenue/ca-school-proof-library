@@ -35,6 +35,16 @@ use CodingAvenue\Proof\Nodes\Filter\Rule\DataType\Array_;
 use CodingAvenue\Proof\Nodes\Filter\Rule\DataType\Arrayfetch;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Construct\Echo_;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Construct\Return_;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Construct\If_;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Construct\Else_;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Construct\ElseIf_;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Construct\Switch_;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Construct\Case_;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Construct\Break_;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Construct\CaseDefault;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Construct\While_;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Construct\DoWhile;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Construct\For_;
 
 class RuleFactoryTest extends TestCase
 {
@@ -192,27 +202,6 @@ class RuleFactoryTest extends TestCase
         $this->assertInstanceOf(Call::class, $rule, "RuleFactory can return an instance of the Call class");
     }
 
-    public function testString()
-    {
-        $rule = RuleFactory::createRule('string', array(), true);
-
-        $this->assertInstanceOf(String_::class, $rule, "RuleFactory can return an instance of the String_ class");
-    }
-
-    public function testArray()
-    {
-        $rule = RuleFactory::createRule('array', array(), true);
-
-        $this->assertInstanceOf(Array_::class, $rule, "RuleFactory can return an instance of the Array_ class");
-    }
-
-    public function testArrayFetch()
-    {
-        $rule = RuleFactory::createRule('arrayfetch', array(), true);
-
-        $this->assertInstanceOf(Arrayfetch::class, $rule, "RuleFactory can return an instance of the Arrayfetch class");
-    }
-
     public function testEcho()
     {
         $rule = RuleFactory::createRule('echo', array(), true);
@@ -267,5 +256,96 @@ class RuleFactoryTest extends TestCase
         $rule = RuleFactory::createRule('shiftright', array(), true);
 
         $this->assertInstanceOf(ShiftRight::class, $rule, "RuleFactory can return an instance of the ShiftRight class");
+    }
+
+    public function testString()
+    {
+        $rule = RuleFactory::createRule('string', array(), true);
+
+        $this->assertInstanceOf(String_::class, $rule, "RuleFactory can return an instance of the String_ class");
+    }
+
+    public function testArray()
+    {
+        $rule = RuleFactory::createRule('array', array(), true);
+
+        $this->assertInstanceOf(Array_::class, $rule, "RuleFactory can return an instance of the Array_ class");
+    }
+
+    public function testArrayFetch()
+    {
+        $rule = RuleFactory::createRule('arrayfetch', array(), true);
+
+        $this->assertInstanceOf(Arrayfetch::class, $rule, "RuleFactory can return an instance of the Arrayfetch class");
+    }
+
+    public function testIf()
+    {
+        $rule = RuleFactory::createRule('if', array(), true);
+
+        $this->assertInstanceOf(If_::class, $rule, "RuleFactory can return an instance of the If_ class");
+    }
+
+    public function testElse()
+    {
+        $rule = RuleFactory::createRule('else', array(), true);
+
+        $this->assertInstanceOf(Else_::class, $rule, "RuleFactory can return an instance of the Else_ class");
+    }
+
+    public function testElseIf()
+    {
+        $rule = RuleFactory::createRule('elseif', array(), true);
+
+        $this->assertInstanceOf(ElseIf_::class, $rule, "RuleFactory can return an instance of the ElseIf_ class");
+    }
+
+    public function testSwitch()
+    {
+        $rule = RuleFactory::createRule('switch', array(), true);
+
+        $this->assertInstanceOf(Switch_::class, $rule, "RuleFactory can return an instance of the Switch_ class");
+    }
+
+    public function testCase()
+    {
+        $rule = RuleFactory::createRule('case', array(), true);
+
+        $this->assertInstanceOf(Case_::class, $rule, "RuleFactory can return an instance of the Case_ class");
+    }
+
+    public function testBreak()
+    {
+        $rule = RuleFactory::createRule('break', array(), true);
+
+        $this->assertInstanceOf(Break_::class, $rule, "RuleFactory can return an instance of the Break_ class");
+    }
+
+    public function testCaseDefault()
+    {
+        $rule = RuleFactory::createRule('default', array(), true);
+
+        $this->assertInstanceOf(CaseDefault::class, $rule, "RuleFactory can return an instance of the CaseDefault class");
+    }
+
+    public function testWhile()
+    {
+        $rule = RuleFactory::createRule('while', array(), true);
+
+        $this->assertInstanceOf(While_::class, $rule, "RuleFactory can return an instance of the While class");
+    }
+
+    public function testDoWhile()
+    {
+        $rule = RuleFactory::createRule('do-while', array(), true);
+
+        $this->assertInstanceOf(DoWhile::class, $rule, "RuleFactory can return an instance of the DoWhile class");
+    }
+
+    public function testFor()
+    {
+        $rule = RuleFactory::createRule('for', array(), true);
+
+        $this->assertInstanceOf(For_::class, $rule, "RuleFactory can return an instance of the For_ class");
     }
 }

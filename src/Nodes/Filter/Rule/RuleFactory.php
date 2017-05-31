@@ -68,7 +68,17 @@ class RuleFactory
             'arrayfetch'    => "\CodingAvenue\Proof\Nodes\Filter\Rule\DataType\Arrayfetch",
             'array'         => "\CodingAvenue\Proof\Nodes\Filter\Rule\DataType\Array_",
             'echo'          => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\Echo_",
-            'return'        => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\Return_"
+            'return'        => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\Return_",
+            'if'            => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\If_",
+            'else'          => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\Else_",
+            'elseif'        => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\ElseIf_",
+            'switch'        => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\Switch_",
+            'case'          => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\Case_",
+            'break'         => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\Break_",
+            'default'       => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\CaseDefault",
+            'while'         => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\While_",
+            'do-while'      => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\DoWhile",
+            'for'           => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\For_"
         );
     }
 }
