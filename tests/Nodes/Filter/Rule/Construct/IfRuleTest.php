@@ -30,6 +30,12 @@ class IfRuleTest extends TestCase
         $this->assertEquals(true, $rule($ifNode), "The callback returns true");
         $this->assertEquals(false, $rule($valueNode), "The callback returns false");
 
+        $if = new If_(array('hasElseIfs' => 'false', 'hasElse' => 'false'), true);
+        $rule = $if->getRule();
+
+        $this->assertEquals(true, $rule($ifNode), "The callback returns true");
+        $this->assertEquals(false, $rule($valueNode), "The callback returns false");
+
         $elseifs = new PhpParser\Node\Stmt\ElseIf_($valueNode, array(), array('startLine' => 1, 'endLine' => 1));
         $ifNode = new PhpParser\Node\Stmt\If_($valueNode, array('elseifs' => array($elseifs)), array('startLine' => 1, 'endLine' => 1));
 

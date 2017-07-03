@@ -28,6 +28,8 @@ use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Bitwise\BitwiseNot;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Bitwise\ShiftLeft;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Bitwise\ShiftRight;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Assignment;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Increment;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Decrement;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Function_\Call;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Function_\Function_;
 use CodingAvenue\Proof\Nodes\Filter\Rule\DataType\String_;
@@ -186,6 +188,20 @@ class RuleFactoryTest extends TestCase
         $rule = RuleFactory::createRule('assignment', array(), true);
 
         $this->assertInstanceOf(Assignment::class, $rule, "RuleFactory can return an instance of the Assignment class");
+    }
+
+    public function testIncrement()
+    {
+        $rule = RuleFactory::CreateRule('increment', array(), true);
+
+        $this->assertInstanceOf(Increment::class, $rule, "RuleFactory can return an instance of the Increment class");
+    }
+
+    public function testDecrement()
+    {
+        $rule = RuleFactory::CreateRule('decrement', array(), true);
+
+        $this->assertInstanceOf(Decrement::class, $rule, "RuleFactory can return an instance of the decrement class");
     }
 
     public function testFunctionDefinition()

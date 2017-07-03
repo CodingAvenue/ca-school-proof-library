@@ -39,6 +39,8 @@ class RuleFactory
             'variable'      => "\CodingAvenue\Proof\Nodes\Filter\Rule\Variable\Variable",
             'interpolation' => "\CodingAvenue\Proof\Nodes\Filter\Rule\Variable\Interpolation",
             'assignment'    => "\CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Assignment",
+            'increment'     => "\CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Increment",
+            'decrement'     => "\CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Decrement",
             'concat'        => "\CodingAvenue\Proof\Nodes\Filter\Rule\Operator\String\Concat",
             'assign-concat' => "\CodingAvenue\Proof\Nodes\Filter\Rule\Operator\String\AssignConcat",
             'spaceship'     => "\CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Comparison\Spaceship",
