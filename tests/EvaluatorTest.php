@@ -23,7 +23,10 @@ class EvaluatorTest extends TestCase
 
     public function testOutput()
     {
-        $code = "<?php echo 'hello World';";
+        $code = <<<'CODE'
+    
+<?php echo 'hello World';
+CODE;
         fwrite(fopen('./code', 'w'), $code);
 
         $config = new Config();

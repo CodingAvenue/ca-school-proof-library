@@ -59,6 +59,8 @@ class EvalRunner extends Command
     {
         $content = file_get_contents($file);
 
+        $content = trim($content);
+
         $content = preg_replace("/^\<\?php/", '', $content);
         $content = preg_replace("/\?\>$/", '', $content);
 
