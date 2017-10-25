@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\Modulo;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\BinaryOp\Modulo;
 
 class ModuloRuleTest extends TestCase
 {

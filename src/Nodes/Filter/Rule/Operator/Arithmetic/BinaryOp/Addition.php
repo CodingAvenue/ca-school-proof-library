@@ -1,13 +1,13 @@
 <?php
 
-namespace CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic;
+namespace CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\BinaryOp;
 
 use CodingAvenue\Proof\Nodes\Filter\Rule\Rule;
 use CodingAvenue\Proof\Nodes\Filter\Rule\RuleInterface;
 
-class Multiplication extends Rule implements RuleInterface
+class Addition extends Rule implements RuleInterface
 {
-    const CLASS_ = '\PhpParser\Node\Expr\BinaryOp\Mul';
+    const CLASS_ = '\PhpParser\Node\Expr\BinaryOp\Plus';
 
     public function getRule(): callable
     {

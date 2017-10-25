@@ -39,10 +39,8 @@ class Evaluator
         if (!$process->isSuccessful()) {
             throw new ProcessFailedException($process); 
         }
-
+        
         return json_decode($process->getOutput(), true);
-
-        $input = $this->prepareCode();
     }
 
     public function prepareCommand($code = null)

@@ -9,7 +9,12 @@ class Function_ extends Filter implements FilterInterface
 {
     public function getRuleClass()
     {
-        return RuleFactory::createRule('function', $this->getRuleFilters(), $this->traverse);   
+        if (isset($this->attributes['name'])) {
+            return RuleFactory::createRule('function', $this->getRuleFilters(), $this->traverse);
+        }
+        else if (isset($this->attributes['type'])) {
+            return RuleFactory::createRule('anonymous', $this->getRuleFilters(), $this->traverse);
+        }
     }
 
     public function getRuleFilters()

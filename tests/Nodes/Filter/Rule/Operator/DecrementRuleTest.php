@@ -8,7 +8,7 @@ class DecrementRuleTest extends TestCase
     public function testInstance()
     {
         $decrement = new Decrement(array(), true);
-        $this->assertInstanceOf(Decrement::class, $decrement, "\$decrement is an instance of the Increment class");
+        $this->assertInstanceOf(Decrement::class, $decrement, "\$decrement is an instance of the Decrement class");
     }
 
     public function testGetRule()

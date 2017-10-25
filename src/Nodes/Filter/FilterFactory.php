@@ -41,7 +41,8 @@ class FilterFactory
             'datatype'      => "\CodingAvenue\Proof\Nodes\Filter\Datatype",
             'construct'     => "\CodingAvenue\Proof\Nodes\Filter\Construct",
             'function'      => "\CodingAvenue\Proof\Nodes\Filter\Function_",
-            'call'          => "\CodingAvenue\Proof\Nodes\Filter\Call"
+            'call'          => "\CodingAvenue\Proof\Nodes\Filter\Call",
+            'anonymous'     => "\CodingAvenue\Proof\Nodes\Filter\Anonymous"
         );
     }
 }

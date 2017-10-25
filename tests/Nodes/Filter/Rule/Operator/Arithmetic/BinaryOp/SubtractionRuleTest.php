@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\Subtraction;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\BinaryOp\Subtraction;
 
 class SubtractionRuleTest extends TestCase
 {

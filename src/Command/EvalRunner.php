@@ -33,37 +33,57 @@ class EvalRunner extends Command
             return;
         }
 
-        $content = $this->prepareCode($file);
+        $additionalCode = $input->getOption('additional-code') || '';        
+        $this->finalizeFile($file, $additionalCode);
 
-        $additionalCode = $input->getOption('additional-code');
+        $command = "php $file 2>&1";
 
-        if (!is_null($additionalCode)) {
-            $content = implode(" ", array($content, $additionalCode));
-        }
-
-        ob_start();
+        $out;
         try {
-            $result = eval($content);
-            $out = ob_get_clean();
+            exec($command, $out, $result);
 
-            $output->writeln(json_encode(array('result' => $result, 'output' => trim($out))));
+            if ($result === 0) {
+                $output->writeln(
+                    json_encode(
+                        array(
+                            'output' => implode(" ", $out)
+                        )
+                    )
+                );
+            }
+            else {
+                $out = implode(" ", $out);
+                $out = str_replace(" in " . realpath($file), '', $out);
+                $output->writeln(
+                    json_encode(
+                        array(
+                            'error' => $out
+                        )
+                    )
+                );
+            }
         }
         catch(\Error $e) {
-            $out = ob_get_clean();
-            
-            $output->writeln(json_encode(array('error' => $e->getMessage() . ' at line ' . $e->getLine(), 'output' => trim($out))));
+            $output->writeln(json_encode(array('error' => $e->getMessage() . ' at line ' . $e->getLine(), 'output' => trim(implode(" ", $out)))));
         }
     }
 
-    private function prepareCode(string $file): string
+    private function finalizeFile(string $file, string $additionalCode = '')
     {
         $content = file_get_contents($file);
 
         $content = trim($content);
 
-        $content = preg_replace("/^\<\?php/", '', $content);
-        $content = preg_replace("/\?\>$/", '', $content);
+        if (preg_match("/\?\>$/", $content) === 1) {
+            $content = preg_replace("/\?\>$/", '', $content);
+            $content = implode(" ", array($content, $additionalCode, "?>"));
+        }
+        else {
+            $content = implode(" ", array($content, $additionalCode));
+        }
 
-        return $content;
+        $fh = fopen($file, 'w');
+        fwrite($fh, $content);
+        fclose($fh);
     }
 }

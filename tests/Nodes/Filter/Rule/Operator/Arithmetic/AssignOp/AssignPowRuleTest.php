@@ -1,9 +1,9 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\Pow;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\AssignOp\Pow;
 
-class PowRuleTest extends TestCase
+class AssignPowRuleTest extends TestCase
 {
     public function testInstance()
     {
@@ -21,13 +21,17 @@ class PowRuleTest extends TestCase
 
     public function testCallback()
     {
-        $left = new \PhpParser\Node\Scalar\LNumber(1, array('startLine' => 1, 'endLine' => 1, 'kind' => 10));
-        $right = new \PhpParser\Node\Scalar\LNumber(2, array('startLine' => 1, 'endLine' => 1, 'kind' => 10));        
-        $PowNode = new \PhpParser\Node\Expr\BinaryOp\Pow($left, $right, array('startLine' => 1, 'endLine' => 1));
+        $variable = new \PhpParser\Node\Expr\Variable('num', array());
+        $initialValue = new \PhpParser\Node\Scalar\LNumber(1, array('startLine' => 1, 'endLine' => 1, 'kind' => 10));
+        $assign = new \PhpParser\Node\Expr\Assign($variable, $initialValue);
+
+        $nextValue = new \PhpParser\Node\Scalar\LNumber(2, array('startLine' => 1, 'endLine' => 1, 'kind' => 10));
+
+        $assignPow = new \PhpParser\Node\Expr\AssignOp\Pow($variable, $nextValue);
 
         $Pow = new Pow(array(), true);
         $rule = $Pow->getRule();
-        $this->assertEquals(true, $rule($PowNode), "The callback returns true");
+        $this->assertEquals(true, $rule($assignPow), "The callback returns true");
     }
 
     public function testException()

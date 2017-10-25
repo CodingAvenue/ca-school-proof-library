@@ -1,13 +1,13 @@
 <?php
 
-namespace CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic;
+namespace CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\AssignOp;
 
 use CodingAvenue\Proof\Nodes\Filter\Rule\Rule;
 use CodingAvenue\Proof\Nodes\Filter\Rule\RuleInterface;
 
 class Subtraction extends Rule implements RuleInterface
 {
-    const CLASS_ = '\PhpParser\Node\Expr\BinaryOp\Minus';
+    const CLASS_ = '\PhpParser\Node\Expr\AssignOp\Minus';
 
     public function getRule(): callable
     {

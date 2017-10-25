@@ -1,9 +1,9 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\Multiplication;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\AssignOp\Multiplication;
 
-class MultiplicationRuleTest extends TestCase
+class AssignMultiplicationRuleTest extends TestCase
 {
     public function testInstance()
     {
@@ -21,13 +21,17 @@ class MultiplicationRuleTest extends TestCase
 
     public function testCallback()
     {
-        $left = new \PhpParser\Node\Scalar\LNumber(1, array('startLine' => 1, 'endLine' => 1, 'kind' => 10));
-        $right = new \PhpParser\Node\Scalar\LNumber(2, array('startLine' => 1, 'endLine' => 1, 'kind' => 10));        
-        $MultiplicationNode = new \PhpParser\Node\Expr\BinaryOp\Mul($left, $right, array('startLine' => 1, 'endLine' => 1));
+        $variable = new \PhpParser\Node\Expr\Variable('num', array());
+        $initialValue = new \PhpParser\Node\Scalar\LNumber(1, array('startLine' => 1, 'endLine' => 1, 'kind' => 10));
+        $assign = new \PhpParser\Node\Expr\Assign($variable, $initialValue);
+
+        $nextValue = new \PhpParser\Node\Scalar\LNumber(2, array('startLine' => 1, 'endLine' => 1, 'kind' => 10));
+
+        $assignMultiplication = new \PhpParser\Node\Expr\AssignOp\Mul($variable, $nextValue);
 
         $Multiplication = new Multiplication(array(), true);
         $rule = $Multiplication->getRule();
-        $this->assertEquals(true, $rule($MultiplicationNode), "The callback returns true");
+        $this->assertEquals(true, $rule($assignMultiplication), "The callback returns true");
     }
 
     public function testException()

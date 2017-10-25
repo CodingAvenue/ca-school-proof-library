@@ -4,12 +4,12 @@ use PHPUnit\Framework\TestCase;
 use CodingAvenue\Proof\Nodes\Filter\Rule\RuleFactory;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Variable\Variable;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Variable\Interpolation;
-use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\Subtraction;
-use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\Pow;
-use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\Multiplication;
-use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\Modulo;
-use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\Division;
-use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\Addition;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\BinaryOp\Subtraction;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\BinaryOp\Pow;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\BinaryOp\Multiplication;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\BinaryOp\Modulo;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\BinaryOp\Division;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\BinaryOp\Addition;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Comparison\Equal;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Comparison\Greater;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Comparison\GreaterEqual;
@@ -32,6 +32,7 @@ use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Increment;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Decrement;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Function_\Call;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Function_\Function_;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Function_\Closure;
 use CodingAvenue\Proof\Nodes\Filter\Rule\DataType\String_;
 use CodingAvenue\Proof\Nodes\Filter\Rule\DataType\Array_;
 use CodingAvenue\Proof\Nodes\Filter\Rule\DataType\Arrayfetch;
@@ -209,6 +210,13 @@ class RuleFactoryTest extends TestCase
         $rule = RuleFactory::createRule('function', array('name' => 'foo'), true);
 
         $this->assertInstanceOf(Function_::class, $rule, "RuleFactory can return an instance of the Function_ class");
+    }
+
+    public function testClosureCall()
+    {
+        $rule = RuleFactory::createRule('anonymous', array(), true);
+
+        $this->assertInstanceOf(Closure::class, $rule, "RuleFactory can return an instance of the Closure class");
     }
 
     public function testFunctionCall()

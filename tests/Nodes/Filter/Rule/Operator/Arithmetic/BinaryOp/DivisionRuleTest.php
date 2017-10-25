@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\Division;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\BinaryOp\Division;
 
 class DivisionRuleTest extends TestCase
 {

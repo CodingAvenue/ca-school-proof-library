@@ -38,20 +38,6 @@ CODE;
         $this->assertEquals("hello World", $result['output'], "The evaulated output is hello World");
     }
 
-    public function testReturn()
-    {
-        $code = "<?php return 'hello';";
-        fwrite(fopen('./code', 'w'), $code);
-
-        $config = new Config();
-        $binFinder = new BinFinder($config);
-
-        $evaluator = new Evaluator('./code', $binFinder->getEvalRunner());
-        $result = $evaluator->evaluate();
-
-        $this->assertEquals("hello", $result['result'], "The evaulated result is hello");
-    }
-
     public function testRepeatedEvaluation()
     {
         $code = <<<'CODE'
@@ -92,7 +78,7 @@ CODE;
         $evaluator = new Evaluator('./code', $binFinder->getEvalRunner());
         $result = $evaluator->evaluate(); 
 
-        $this->assertEquals("syntax error, unexpected end of file, expecting ',' or ';' at line 1", $result['error'], "Evaluator will give us the syntax error");
+        $this->assertEquals("PHP Parse error:  syntax error, unexpected end of file, expecting ',' or ';' on line 1", $result['error'], "Evaluator will give us the syntax error");
     }
 
     public static function tearDownAfterClass()

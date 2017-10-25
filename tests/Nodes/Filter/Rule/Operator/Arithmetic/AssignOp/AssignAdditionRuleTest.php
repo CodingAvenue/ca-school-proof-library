@@ -1,9 +1,9 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\Addition;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Arithmetic\AssignOp\Addition;
 
-class AdditionRuleTest extends TestCase
+class AssignAdditionRuleTest extends TestCase
 {
     public function testInstance()
     {
@@ -21,13 +21,17 @@ class AdditionRuleTest extends TestCase
 
     public function testCallback()
     {
-        $left = new \PhpParser\Node\Scalar\LNumber(1, array('startLine' => 1, 'endLine' => 1, 'kind' => 10));
-        $right = new \PhpParser\Node\Scalar\LNumber(2, array('startLine' => 1, 'endLine' => 1, 'kind' => 10));        
-        $AdditionNode = new \PhpParser\Node\Expr\BinaryOp\Plus($left, $right, array('startLine' => 1, 'endLine' => 1));
+        $variable = new \PhpParser\Node\Expr\Variable('num', array());
+        $initialValue = new \PhpParser\Node\Scalar\LNumber(1, array('startLine' => 1, 'endLine' => 1, 'kind' => 10));
+        $assign = new \PhpParser\Node\Expr\Assign($variable, $initialValue);
+
+        $nextValue = new \PhpParser\Node\Scalar\LNumber(2, array('startLine' => 1, 'endLine' => 1, 'kind' => 10));
+
+        $assignAddition = new \PhpParser\Node\Expr\AssignOp\Plus($variable, $nextValue);
 
         $Addition = new Addition(array(), true);
         $rule = $Addition->getRule();
-        $this->assertEquals(true, $rule($AdditionNode), "The callback returns true");
+        $this->assertEquals(true, $rule($assignAddition), "The callback returns true");
     }
 
     public function testException()
