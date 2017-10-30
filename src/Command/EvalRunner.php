@@ -46,7 +46,7 @@ class EvalRunner extends Command
                 $output->writeln(
                     json_encode(
                         array(
-                            'output' => implode(" ", $out)
+                            'output' => implode(PHP_EOL, $out)
                         )
                     )
                 );
@@ -64,7 +64,7 @@ class EvalRunner extends Command
             }
         }
         catch(\Error $e) {
-            $output->writeln(json_encode(array('error' => $e->getMessage() . ' at line ' . $e->getLine(), 'output' => trim(implode(" ", $out)))));
+            $output->writeln(json_encode(array('error' => $e->getMessage() . ' at line ' . $e->getLine(), 'output' => trim(implode(PHP_EOL, $out)))));
         }
     }
 
