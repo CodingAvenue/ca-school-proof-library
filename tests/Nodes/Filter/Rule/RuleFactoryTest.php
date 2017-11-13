@@ -19,6 +19,12 @@ use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Comparison\LessEqual;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Comparison\NotEqual;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Comparison\NotIdentical;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Comparison\Spaceship;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Logical\BooleanAnd;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Logical\BooleanOr;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Logical\BooleanNot;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Logical\LogicalAnd;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Logical\LogicalOr;
+use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Logical\LogicalXor;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\String\AssignConcat;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\String\Concat;
 use CodingAvenue\Proof\Nodes\Filter\Rule\Operator\Bitwise\BitwiseAnd;
@@ -168,6 +174,42 @@ class RuleFactoryTest extends TestCase
         $rule = RuleFactory::createRule('spaceship', array(), true);
 
         $this->assertInstanceOf(Spaceship::class, $rule, "RuleFactory can return an instance of the Spaceship class");
+    }
+
+    public function testBooleanAnd() {
+        $rule = RuleFactory::createRule('bool-and', array(), true);
+
+        $this->assertInstanceOf(BooleanAnd::class, $rule, "RuleFactory can return an instance of the BooleanAnd class");
+    }
+
+    public function testBooleanOr() {
+        $rule = RuleFactory::createRule('bool-or', array(), true);
+
+        $this->assertInstanceOf(BooleanOr::class, $rule, "RuleFactory can return an instance of the BooleanAnd class");
+    }
+
+    public function testBooleanNot() {
+        $rule = RuleFactory::createRule('bool-not', array(), true);
+
+        $this->assertInstanceOf(BooleanNot::class, $rule, "RuleFactory can return an instance of the BooleanAnd class");
+    }
+
+    public function testLogicalAnd() {
+        $rule = RuleFactory::createRule('logical-and', array(), true);
+
+        $this->assertInstanceOf(LogicalAnd::class, $rule, "RuleFactory can return an instance of the BooleanAnd class");
+    }
+
+    public function testLogicalOr() {
+        $rule = RuleFactory::createRule('logical-or', array(), true);
+
+        $this->assertInstanceOf(LogicalOr::class, $rule, "RuleFactory can return an instance of the BooleanAnd class");
+    }
+
+    public function testLogicalXor() {
+        $rule = RuleFactory::createRule('logical-xor', array(), true);
+
+        $this->assertInstanceOf(LogicalXor::class, $rule, "RuleFactory can return an instance of the BooleanAnd class");
     }
 
     public function testAssignConcat()
