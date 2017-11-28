@@ -30,6 +30,39 @@ class FunctionRuleTest extends TestCase
         $func = new Function_(array('name' => 'addMe'), true);
         $rule = $func->getRule();
         $this->assertEquals(true, $rule($funcNode), "The callback returns true");
+
+        $paramNodes = array(
+            new PhpParser\Node\Param(
+                new PhpParser\Node\Expr\Variable('num'), null, null, true
+            )
+        );
+
+        $subNodes = array(
+            'params' => $paramNodes
+        );
+
+        $funcNode = new PhpParser\Node\Stmt\Function_('addMe', $subNodes);
+        $func = new Function_(array('name' => 'addMe', 'paramsByRefs' => 'num'));
+        $rule = $func->getRule();
+        $this->assertEquals(true, $rule($funcNode), "The callback returns true");
+
+        $paramNodes = array(
+            new PhpParser\Node\Param(
+                new PhpParser\Node\Expr\Variable('num'), null, null, true
+            ),
+            new PhpParser\Node\Param(
+                new PhpParser\Node\Expr\Variable('num2'), null, null, true
+            )
+        );
+
+        $subNodes = array(
+            'params' => $paramNodes
+        );
+
+        $funcNode = new PhpParser\Node\Stmt\Function_('addMe', $subNodes);
+        $func = new Function_(array('name' => 'addMe', 'paramsByRefs' => 'num, num2'));
+        $rule = $func->getRule();
+        $this->assertEquals(true, $rule($funcNode), "The callback returns true");
     }
 
     public function testException()

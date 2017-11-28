@@ -13,18 +13,39 @@ class Function_ extends Rule implements RuleInterface
     {
         $class = self::CLASS_;
         $filter = $this->filter;
-
-        return function($node) use ($class, $filter) {
-            if (isset($filter['name'])) {
-                return $node instanceof $class && $node->name === $filter['name'];
+        $paramByRefs = function($node, $filter) {
+            $isByRefs = true;
+    
+            if (isset($filter['paramsByRefs'])) {
+                $byRefs = $filter['paramsByRefs'];                
+                $paramsRef = array_map('trim', explode(',', $byRefs));
+    
+                foreach ($paramsRef as $param) {
+                    foreach ($node->params as $nodeParam) {
+                        if ($nodeParam->name->name === $param) {
+                            if (!$nodeParam->byRef) {
+                                $isByRefs = false;
+                                break 2;
+                            }
+                        }
+                    }
+                }
             }
-            
-            return $node instanceof $class;
+    
+            return $isByRefs;
+        };
+
+        return function($node) use ($class, $filter, $paramByRefs) {
+            return (
+                $node instanceof $class
+                && (isset($filter['name']) ? $node->name === $filter['name'] : true)
+                && $paramByRefs($node, $filter)
+            );
         };
     }
 
     public function allowedOptionalFilter()
     {
-        return array('name');
+        return array('name', 'paramsByRefs');
     }
 }
