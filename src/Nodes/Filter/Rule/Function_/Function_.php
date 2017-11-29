@@ -22,7 +22,7 @@ class Function_ extends Rule implements RuleInterface
     
                 foreach ($paramsRef as $param) {
                     foreach ($node->params as $nodeParam) {
-                        if ($nodeParam->name->name === $param) {
+                        if ($nodeParam->name === $param) {
                             if (!$nodeParam->byRef) {
                                 $isByRefs = false;
                                 break 2;
