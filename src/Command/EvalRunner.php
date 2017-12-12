@@ -34,7 +34,9 @@ class EvalRunner extends Command
         }
 
         $additionalCode = $input->getOption('additional-code') || '';        
-        $this->finalizeFile($file, $additionalCode);
+
+        // Temporary disable injecting additional code. Will handle it properly later on.
+        //$this->finalizeFile($file, $additionalCode);
 
         $command = "php $file 2>&1";
 
