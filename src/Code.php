@@ -124,6 +124,6 @@ class Code {
     public function codeStartCheck()
     {
         $length = strlen(PHP_EOL);
-        (substr($this->raw, 0, $length) === PHP_EOL) ? false : true;
+        return (substr($this->raw, 0, $length) === PHP_EOL) ? false : true;
     }
 }
