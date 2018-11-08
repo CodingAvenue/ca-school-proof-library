@@ -117,4 +117,13 @@ class Code {
     {
         return $this->getNodes()->find($selector);
     }
+
+    /**
+     * Checks if the user Submitted code first line is the php start tag `<?php`.
+     */
+    public function codeStartCheck()
+    {
+        $length = strlen(PHP_EOL);
+        (substr($this->raw, 0, $length) === PHP_EOL) ? false : true;
+    }
 }
