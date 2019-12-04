@@ -96,7 +96,20 @@ class RuleFactory
             'while'         => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\While_",
             'do-while'      => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\DoWhile",
             'for'           => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\For_",
-            'foreach'       => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\Foreach_"            
+            'foreach'       => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\Foreach_",
+            'new'           => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\New_",
+            'class'         => "\CodingAvenue\Proof\Nodes\Filter\Rule\Class_\Class_",
+            'use'           => "\CodingAvenue\Proof\Nodes\Filter\Rule\Class_\Use_",
+            'namespace'     => "\CodingAvenue\Proof\Nodes\Filter\Rule\Class_\Namespace_",
+            'interface'     => "\CodingAvenue\Proof\Nodes\Filter\Rule\Class_\Interface_",
+            'static-call'   => "\CodingAvenue\Proof\Nodes\Filter\Rule\Class_\StaticCall",
+            'property'      => "\CodingAvenue\Proof\Nodes\Filter\Rule\Class_\Property_",
+            'property-call' => "\CodingAvenue\Proof\Nodes\Filter\Rule\Class_\PropertyCall",
+            'instantiate'   => "\CodingAvenue\Proof\Nodes\Filter\Rule\Class_\Instantiate_",
+            'method-call'   => "\CodingAvenue\Proof\Nodes\Filter\Rule\Class_\MethodCall",
+            'const'         => "\CodingAvenue\Proof\Nodes\Filter\Rule\Class_\Const_",
+            'const-fetch'   => "\CodingAvenue\Proof\Nodes\Filter\Rule\Class_\ConstFetch",             
+            'method'        => "\CodingAvenue\Proof\Nodes\Filter\Rule\Function_\Method_"                    
         );
     }
 }

@@ -42,7 +42,19 @@ class FilterFactory
             'construct'     => "\CodingAvenue\Proof\Nodes\Filter\Construct",
             'function'      => "\CodingAvenue\Proof\Nodes\Filter\Function_",
             'call'          => "\CodingAvenue\Proof\Nodes\Filter\Call",
-            'anonymous'     => "\CodingAvenue\Proof\Nodes\Filter\Anonymous"
+            'anonymous'     => "\CodingAvenue\Proof\Nodes\Filter\Anonymous",
+            'class'         => "\CodingAvenue\Proof\Nodes\Filter\Class_",
+            'use'           => "\CodingAvenue\Proof\Nodes\Filter\Use_",
+            'namespace'     => "\CodingAvenue\Proof\Nodes\Filter\Namespace_",
+            'interface'     => "\CodingAvenue\Proof\Nodes\Filter\Interface_",
+            'method'        => "\CodingAvenue\Proof\Nodes\Filter\Method_",
+            'const'         => "\CodingAvenue\Proof\Nodes\Filter\Const_",
+            'const-fetch'   => "\CodingAvenue\Proof\Nodes\Filter\ConstFetch",
+            'static-call'   => "\CodingAvenue\Proof\Nodes\Filter\StaticCall",
+            'property'      => "\CodingAvenue\Proof\Nodes\Filter\Property_",
+            'property-call' => "\CodingAvenue\Proof\Nodes\Filter\PropertyCall",
+            'instantiate'   => "\CodingAvenue\Proof\Nodes\Filter\Instantiate_",
+            'method-call'   => "\CodingAvenue\Proof\Nodes\Filter\MethodCall",
         );
     }
 }
