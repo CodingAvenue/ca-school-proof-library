@@ -99,11 +99,21 @@ class Nodes
                     continue;
                 }
 
-                throw new \Exception("Unknown node type " . gettype($node->$subNode));
+                // Ignore subnode that isn't a class.
+                //throw new \Exception("Unknown node type " . gettype($node->$subNode));
             }
         }
         
         return new self($newNodes);
+    }
+
+    public function getSubnodeByIndex(integer $index)
+    {
+        if (array_key_exists($index, $this->getNodes())) {
+            return new self([$this->getNodes()[$index]]);
+        }
+
+        return new self([]);
     }
 
     /**

@@ -8,16 +8,23 @@ use CodingAvenue\Proof\Nodes\Filter\Rule\RuleInterface;
 class MethodCall extends Rule implements RuleInterface
 {
     const CLASS_ = 'PhpParser\Node\Expr\MethodCall';
+    const VAR_CLASS = 'PhpParser\Node\Expr\Variable';
 
     public function getRule(): callable
     {
         $class = self::CLASS_;
+        $varClass = self::VAR_CLASS;
         $filter = $this->filter;
 
-        return function($node) use ($class, $filter) {
+        return function($node) use ($class, $varClass, $filter) {
             return (
                 ($node instanceof $class) &&
-                (isset($filter['variable']) ? $node->var->name === $filter['variable'] : true) &&
+                (isset($filter['variable']) 
+                    ? $node->var instanceof $varClass
+                        ? $node->var->name === $filter['variable']
+                        : false
+                    : true
+                ) &&
                 (isset($filter['name']) ? $node->name === $filter['name'] : true)
             );
         };

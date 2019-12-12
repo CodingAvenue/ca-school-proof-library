@@ -55,6 +55,8 @@ class FilterFactory
             'property-call' => "\CodingAvenue\Proof\Nodes\Filter\PropertyCall",
             'instantiate'   => "\CodingAvenue\Proof\Nodes\Filter\Instantiate_",
             'method-call'   => "\CodingAvenue\Proof\Nodes\Filter\MethodCall",
+            'param'         => "\CodingAvenue\Proof\Nodes\Filter\Param_",
+            'args'          => "\CodingAvenue\Proof\Nodes\Filter\Args_"
         );
     }
 }
