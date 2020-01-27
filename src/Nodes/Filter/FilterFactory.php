@@ -50,13 +50,16 @@ class FilterFactory
             'method'        => "\CodingAvenue\Proof\Nodes\Filter\Method_",
             'const'         => "\CodingAvenue\Proof\Nodes\Filter\Const_",
             'const-fetch'   => "\CodingAvenue\Proof\Nodes\Filter\ConstFetch",
+            'static-prop-fetch' => "\CodingAvenue\Proof\Nodes\Filter\StaticPropFetch",
             'static-call'   => "\CodingAvenue\Proof\Nodes\Filter\StaticCall",
             'property'      => "\CodingAvenue\Proof\Nodes\Filter\Property_",
             'property-call' => "\CodingAvenue\Proof\Nodes\Filter\PropertyCall",
             'instantiate'   => "\CodingAvenue\Proof\Nodes\Filter\Instantiate_",
             'method-call'   => "\CodingAvenue\Proof\Nodes\Filter\MethodCall",
             'param'         => "\CodingAvenue\Proof\Nodes\Filter\Param_",
-            'args'          => "\CodingAvenue\Proof\Nodes\Filter\Args_"
+            'args'          => "\CodingAvenue\Proof\Nodes\Filter\Args_",
+            'assign-ref'    => "\CodingAvenue\Proof\Nodes\Filter\AssignRef",
+            'include'       => "\CodingAvenue\Proof\Nodes\Filter\Include_"
         );
     }
 }

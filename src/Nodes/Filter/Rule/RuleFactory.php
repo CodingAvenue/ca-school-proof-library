@@ -100,6 +100,7 @@ class RuleFactory
             'for'           => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\For_",
             'foreach'       => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\Foreach_",
             'new'           => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\New_",
+            'include'       => "CodingAvenue\Proof\Nodes\Filter\Rule\Construct\Include_",
             'class'         => "\CodingAvenue\Proof\Nodes\Filter\Rule\Class_\Class_",
             'use'           => "\CodingAvenue\Proof\Nodes\Filter\Rule\Class_\Use_",
             'namespace'     => "\CodingAvenue\Proof\Nodes\Filter\Rule\Class_\Namespace_",
@@ -110,7 +111,8 @@ class RuleFactory
             'instantiate'   => "\CodingAvenue\Proof\Nodes\Filter\Rule\Class_\Instantiate_",
             'method-call'   => "\CodingAvenue\Proof\Nodes\Filter\Rule\Class_\MethodCall",
             'const'         => "\CodingAvenue\Proof\Nodes\Filter\Rule\Class_\Const_",
-            'const-fetch'   => "\CodingAvenue\Proof\Nodes\Filter\Rule\Class_\ConstFetch",             
+            'const-fetch'   => "\CodingAvenue\Proof\Nodes\Filter\Rule\Class_\ConstFetch",
+            'static-prop-fetch' => "\CodingAvenue\Proof\Nodes\Filter\Rule\Class_\StaticPropFetch",          
             'method'        => "\CodingAvenue\Proof\Nodes\Filter\Rule\Function_\Method_"                    
         );
     }
