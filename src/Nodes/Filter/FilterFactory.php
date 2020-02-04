@@ -59,7 +59,8 @@ class FilterFactory
             'param'         => "\CodingAvenue\Proof\Nodes\Filter\Param_",
             'args'          => "\CodingAvenue\Proof\Nodes\Filter\Args_",
             'assign-ref'    => "\CodingAvenue\Proof\Nodes\Filter\AssignRef",
-            'include'       => "\CodingAvenue\Proof\Nodes\Filter\Include_"
+            'include'       => "\CodingAvenue\Proof\Nodes\Filter\Include_",
+            'string'        => "\CodingAvenue\Proof\Nodes\Filter\String_"
         );
     }
 }
