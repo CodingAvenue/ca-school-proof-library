@@ -27,9 +27,13 @@ class Code {
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(string $codePath)
     {
-        $this->config = new Config();
+        if (!$codePath) {
+            throw new \Exception("Path to the file to parse is required");
+        }
+
+        $this->config = new Config($codePath);
 
         if (!file_exists($this->getUserCode())) {
             throw new \Exception("Answer file {$this->getUserCode()} not found.");
