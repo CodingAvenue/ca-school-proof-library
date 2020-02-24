@@ -44,7 +44,7 @@ class Config
      * If it's set and is set to 'local' then the proof.json can be used to overwrite the default settings
      * Otherwise the default settings will always be used.
      */
-    public function __construct()
+    public function __construct(string $codePath)
     {
         $configFile = realpath('proof.json') ?: null;
         $this->sandboxMode = getenv("PROOF_LIBRARY_MODE") === 'local' ? false : true;
@@ -52,13 +52,13 @@ class Config
         if ($configFile && file_exists($configFile)) {
             $config = json_decode(file_get_contents($configFile), true);
             $config = array_merge($this->defaultSettings, $config);
-            $this->loadConfiguration($config);
+            $this->loadConfiguration($config, $codePath);
 
             $this->defaultConfiguration = false;
         }
         else {
             $config = $this->defaultSettings;
-            $this->loadConfiguration($config);
+            $this->loadConfiguration($config, $codePath);
             
             $this->defaultConfiguration = true;
         }
@@ -69,9 +69,9 @@ class Config
      *
      * @param array $config the settings to be used.
      */
-    public function loadConfiguration($config)
+    public function loadConfiguration($config, $codePath)
     {
-        $this->codeFilePath = $this->sandboxMode ? $this->defaultSettings['codeFilePath'] : $config['codeFilePath'];
+        $this->codeFilePath = $codePath;
         $this->verbose = $config['verbose'];
         $this->answerDir = $this->sandboxMode ? $this->defaultSettings['answerDir'] : $config['answerDir'];
         $this->proofDir = $this->sandboxMode ? $this->defaultSettings['proofDir'] : $config['proofDir'];
