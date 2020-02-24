@@ -60,7 +60,9 @@ class FilterFactory
             'args'          => "\CodingAvenue\Proof\Nodes\Filter\Args_",
             'assign-ref'    => "\CodingAvenue\Proof\Nodes\Filter\AssignRef",
             'include'       => "\CodingAvenue\Proof\Nodes\Filter\Include_",
-            'string'        => "\CodingAvenue\Proof\Nodes\Filter\String_"
+            'string'        => "\CodingAvenue\Proof\Nodes\Filter\String_",
+            'integer'       => "\CodingAvenue\Proof\Nodes\Filter\Integer_",
+            'float'         => "\CodingAvenue\Proof\Nodes\Filter\Float_"
         );
     }
 }
