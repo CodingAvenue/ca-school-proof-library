@@ -83,6 +83,8 @@ class RuleFactory
             'param'         => "\CodingAvenue\Proof\Nodes\Filter\Rule\Function_\Param_",
             'args'          => "\CodingAvenue\Proof\Nodes\Filter\Rule\Function_\Args_",                      
             'string'        => "\CodingAvenue\Proof\Nodes\Filter\Rule\DataType\String_",
+            'integer'       => "\CodingAvenue\Proof\Nodes\Filter\Rule\DataType\Integer_",
+            'float'         => "\CodingAvenue\Proof\Nodes\Filter\Rule\DataType\Float_",
             'arrayfetch'    => "\CodingAvenue\Proof\Nodes\Filter\Rule\DataType\Arrayfetch",
             'array'         => "\CodingAvenue\Proof\Nodes\Filter\Rule\DataType\Array_",
             'echo'          => "\CodingAvenue\Proof\Nodes\Filter\Rule\Construct\Echo_",
