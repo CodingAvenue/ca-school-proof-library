@@ -48,7 +48,7 @@ class ProofRunner extends Command
         $output->writeln("Running command `{$phpUnit} --verbose --tap {$proof}`", OutputInterface::VERBOSITY_VERBOSE);
 
         if (PHP_OS === 'WINNT') {
-            exec("set TEST_INDEX={$answer} {$phpUnit} --verbose --tap {$proof}", $out);
+            exec("set TEST_INDEX={$answer} && {$phpUnit} --verbose --tap {$proof}", $out);
         } else {
             exec("TEST_INDEX={$answer} {$phpUnit} --verbose --tap {$proof}", $out);
         }
