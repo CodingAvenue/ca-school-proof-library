@@ -47,7 +47,11 @@ class ProofRunner extends Command
         $phpUnit = $binFinder->getPHPUnit();
         $output->writeln("Running command `{$phpUnit} --verbose --tap {$proof}`", OutputInterface::VERBOSITY_VERBOSE);
 
-        exec("CODESTOP_CODE_PATH={$answer} {$phpUnit} --verbose --tap {$proof}", $out);
+        if (PHP_OS === 'WINNT') {
+            exec("set TEST_INDEX={$answer} {$phpUnit} --verbose --tap {$proof}", $out);
+        } else {
+            exec("TEST_INDEX={$answer} {$phpUnit} --verbose --tap {$proof}", $out);
+        }
 
         foreach ($out as $line) {
             $output->writeln($line);
